@@ -76,7 +76,7 @@ public class Unite : MonoBehaviour
         healthPoints = maxHealthPoints;
         movementSpeed = 1.5f;
         attackCooldown = 1.5f;
-        attackDistance = 0.5f;
+        attackDistance = 05f;
         strength = new Vector2(15f, 20f);
         attackRadius = 1.5f;
     }
@@ -100,7 +100,7 @@ public class Unite : MonoBehaviour
         return Time.time >= lastAttackTs + attackCooldown;
     }
 
-    public void Attack(Vector2 position)
+    public void Attack(Vector2 _position)
     {
         // Verifier que l'attaque est prete
         if (!AttackReady())
@@ -110,14 +110,14 @@ public class Unite : MonoBehaviour
         }
         
         // Verifier distance avec position
-        if (Vector2.Distance(transform.position, position) > attackDistance)
+        if (Vector2.Distance(transform.position, _position) > attackDistance)
         {
             Debug.LogWarning("Tentative d'attaquer echouee car trop loin");
             return;
         }
         
         // Effectuer l'attaque
-        InflictDamage(position, Random.Range(strength.x, strength.y));
+        InflictDamage(_position, Random.Range(strength.x, strength.y));
         
         // Modifier le lastAttackTs
         lastAttackTs = Time.time;
@@ -134,14 +134,18 @@ public class Unite : MonoBehaviour
         // Trier les colliders
         foreach (Collider2D collider in colliders)
         {
-            
+            Debug.Log("Is a unit");
+            // Verifier s'il s'agit d'un Unite
+            if (collider.TryGetComponent(out Unite _unite))
+            {
+                // Verifier qu'elle ne soit pas dans l'equipe
+                if (team != _unite.team)
+                {
+                    // Infliger des degats
+                    _unite.GetDamaged(damage);
+                }
+            }
         }
-
-        // Verifier s'il s'agit d'un Unite
-
-        // Verifier qu'elle ne soit pas dans l'equipe
-
-        // Infliger des degats
     }
 
     private void GetDamaged(float degats)
