@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -40,7 +41,10 @@ public class Unite : MonoBehaviour
     // Cible que l'unite veut attaquer
     private Unite target; // CA SUCE
     
-    private NavMeshAgent agent;
+    public NavMeshAgent agent { get; private set; }
+    
+    // Equipe
+    public Team team { get; private set; }
     
     // Start is called before the first frame update
     void Start()
@@ -58,6 +62,12 @@ public class Unite : MonoBehaviour
     void Update()
     {
         
+    }
+
+    // Assigner equipe
+    public void SetTeam(Team _team)
+    {
+        team = _team;
     }
 
     protected void AssignAttributes()
@@ -146,7 +156,11 @@ public class Unite : MonoBehaviour
         // Verifier si je suis mort
         if (healthPoints <= 0)
         {
-            // TODO: Mourir
+            // Auto destruction dans 10.. 9..
+            team.UniteDeath(this);
+            
+            // Detruire
+            Destroy(gameObject);
         }
     }
 }

@@ -6,19 +6,24 @@ public class Team : MonoBehaviour
 {
     [Header("Prefabs")]
     // Contient toutes les unites de l'equipe
-    List<Unite> unites = new List<Unite>();
+    public List<Unite> unites = new List<Unite>();
+    public Tower[] towers { get; private set; }
 
-    private const int NB_UNITE_PER_REENFORCEMENT = 5;
+    private const int NB_UNITE_PER_REINFORCEMENT = 5;
     private const int NB_UNITE_MAX = 15;
     
     public GameObject prefabFantassin;
     public GameObject prefabSapeur;
+
+    public int nbLivesLeft = 100;
     
     
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("Reenforcement", 0f, 15f);
+        towers = FindObjectsOfType<Tower>();
+        
+        InvokeRepeating("Reinforcement", 1f, 15f);
     }
 
     // Update is called once per frame
@@ -27,20 +32,34 @@ public class Team : MonoBehaviour
         
     }
 
-    private void Reenforcement()
+    public void UniteDeath(Unite unite)
+    {
+        // Retirer unite de la liste
+        unites.Remove(unite);
+        
+        nbLivesLeft--;
+        
+        Debug.Log("Unite death");
+        
+        // TODO: Si plus de vue, C'est la fin
+        if (nbLivesLeft <= 0)
+            Debug.Log($"Equipe {gameObject.name} n'est plus");
+    }
+
+    private void Reinforcement()
     {
         // Verifier la taille de la liste
         int towersPossessed = 2;
-        for (int i = 0; i < NB_UNITE_PER_REENFORCEMENT + towersPossessed && unites.Count < NB_UNITE_MAX; i++)
+        for (int i = 0; i < NB_UNITE_PER_REINFORCEMENT + towersPossessed && unites.Count < NB_UNITE_MAX; i++)
         {
             // Instancier nouvelle unite
-            Instantiate(prefabFantassin, transform.position, Quaternion.identity);
+            Unite newUnite = Instantiate(prefabFantassin, transform.position, Quaternion.identity).GetComponent<Unite>();
             
             // Ajouter unite a la liste
-            //unites.Add(unite);
+            unites.Add(newUnite);
             
             // Aviser a quelle equipe il appartient
-            
+            newUnite.SetTeam(this);
             
             Debug.Log("Ajoute unite");
         }
