@@ -6,13 +6,12 @@ public class BariStar : MonoBehaviour
 {
     private Unite unite;
 
-    private Unite nemesis;
-
     private enum States
     {
         idle,
         walk,
-        combat
+        combat,
+        smartCombat,
     }
     
     // Etat actuel du state machine
@@ -84,7 +83,7 @@ public class BariStar : MonoBehaviour
                     // Aller attaquer
                     state = States.combat;
                     
-                    nemesis = _unite;
+                    unite.SetTarget(_unite);
                     
                     return;
                 }
@@ -106,19 +105,16 @@ public class BariStar : MonoBehaviour
     void Update_StateCombat()
     {
         // Si le nemesis meurt, retourne vers marche
-        if (!nemesis)
+        if (!unite.target)
         {
             state = States.walk;
             return;
         }
         
         // Continuer a marcher vers nemesis
-        unite.SetDestination(nemesis.transform.position);
+        unite.SetDestination(unite.target.transform.position);
         
         // Tenter l'attaque du nemesis
-        unite.Attack(nemesis.transform.position);
-        
-
-        
+        unite.Attack(unite.target.transform.position);
     }
 }

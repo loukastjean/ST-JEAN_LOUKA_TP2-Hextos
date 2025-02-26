@@ -41,7 +41,7 @@ public class Team : MonoBehaviour
         
         Debug.Log("Unite death");
         
-        // TODO: Si plus de vue, C'est la fin
+        // TODO: Si plus de vie, C'est la fin
         if (nbLivesLeft <= 0)
             Debug.Log($"Equipe {gameObject.name} n'est plus");
     }

@@ -33,13 +33,13 @@ public class Unite : MonoBehaviour
     public float attackRadius { get; private set; }
 
     // Timerstamp du moment de l aderniere attaque
-    private float lastAttackTs;
+    public float lastAttackTs { get; private set; }
     
     // Timestamp du moment de la creation
-    private float creationTs;
+    public float creationTs { get; private set; }
     
     // Cible que l'unite veut attaquer
-    private Unite target; // CA SUCE
+    public Unite target { get; private set; } // CA SUCE
     
     public NavMeshAgent agent { get; private set; }
     
@@ -76,13 +76,13 @@ public class Unite : MonoBehaviour
         healthPoints = maxHealthPoints;
         movementSpeed = 1.5f;
         attackCooldown = 1.5f;
-        attackDistance = 05f;
+        attackDistance = 0.5f;
         strength = new Vector2(15f, 20f);
         attackRadius = 1.5f;
     }
     
     // Assigner la cible
-    public void SetCible(Unite _target)
+    public void SetTarget(Unite _target)
     {
         target = _target;
     }
