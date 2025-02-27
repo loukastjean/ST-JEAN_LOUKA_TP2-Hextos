@@ -153,9 +153,6 @@ public class Unite : MonoBehaviour
         {
             return;
         }
-
-        
-        Debug.Log(healthPoints);
         
         // Perdre des points de vie
         healthPoints -= degats;

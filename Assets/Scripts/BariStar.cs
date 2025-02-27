@@ -42,20 +42,18 @@ public class BariStar : MonoBehaviour
 
     void Update_StateIdle()
     {
-        // Verifier appartenance des tours afin de s'y diriger
-        foreach (var tower in unite.team.towers)
+        Tower tower = GetClosestEnemyTower();
+        
+        // Si pas proprietaire, s'y rendre
+        if (tower.ownerTeam != unite.team)
         {
-            // Si pas proprietaire, s'y rendre
-            if (tower.ownerTeam != unite.team)
-            {
-                // Diriger vers tour
-                unite.SetDestination(tower.transform.position);
-                
-                // Marcher vers cette tour
-                state = States.walk;
-                
-                return;
-            }
+            // Diriger vers tour
+            unite.SetDestination(tower.transform.position);
+            
+            // Marcher vers cette tour
+            state = States.walk;
+            
+            return;
         }
 
         // Choisir une tour aleatoire ou se diriger
@@ -69,10 +67,9 @@ public class BariStar : MonoBehaviour
 
     void Update_StateWalk()
     {
-        Unite closestEnemy = FindClosestEnemy();
+        Unite closestEnemy = GetClosestEnemy();
         if (closestEnemy)
         {
-            Debug.Log("On a trouve un closest ennemi!");
             unite.SetTarget(closestEnemy);
             state = States.combat;
             return;
@@ -105,9 +102,29 @@ public class BariStar : MonoBehaviour
         unite.Attack(unite.target.transform.position);
     }
 
-    private Unite FindClosestEnemy()
+    private Unite GetClosestEnemy()
     {
         Unite closestEnemy = null;
+        
+        List<Unite> ennemies = GetEnnemies();
+        
+        foreach (var enemy in ennemies)
+        {
+            if (closestEnemy)
+            {
+                // Si la difference entre la distance entre notre unite et la previously closest unite est grande que celle avec la nouvelle unite
+                if (Vector3.Distance(unite.transform.position, enemy.transform.position) < Vector3.Distance(unite.transform.position, closestEnemy.transform.position))
+                    closestEnemy = enemy;
+            }
+            else
+                closestEnemy = enemy;
+        }
+        return closestEnemy;
+    }
+
+    private List<Unite> GetEnnemies()
+    {
+        List<Unite> ennemies = new List<Unite>();
         
         // Recuperer tous les colliders a proximite
         Collider2D[] colliders = Physics2D.OverlapCircleAll(unite.transform.position, 1000f);
@@ -121,55 +138,38 @@ public class BariStar : MonoBehaviour
                 // Si c'est pas un allie
                 if (unite.team != _unite.team)
                 {
-                    if (closestEnemy)
-                    {
-                        // Si la difference entre la distance entre notre unite et la previously closest unite est grande que celle avec la nouvelle unite
-                        if (Vector3.Distance(unite.transform.position, _unite.transform.position) < Vector3.Distance(unite.transform.position, closestEnemy.transform.position))
-                        {
-                            closestEnemy = _unite;
-                        }
-                    }
-                    else
-                    {
-                        closestEnemy = _unite;
-                    }
+                    ennemies.Add(_unite);
                 }
             }
         }
-        return closestEnemy;
+        return ennemies;
     }
 
-    private Tower FindClosestTower()
+    private Tower GetClosestEnemyTower()
     {
         Tower closestTower = null;
         
-        // Recuperer tous les colliders a proximite
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(unite.transform.position, 1000f);
-            
-        // Verifier s'il s'agit d'une unite
-        foreach (var collider in colliders)
+        foreach (var tower in unite.team.towers)
         {
-            // S'il  s'agit d'une unite, attaquer
-            if (collider.TryGetComponent(out Tower _tower))
+            // Si c'est pas un allie
+            if (unite.team.towers.Contains(tower))
             {
-                // Si c'est pas un allie
-                if (unite.team.towers.Contains(_tower))
+                if (closestTower)
                 {
-                    if (closestTower)
+                    // Si la difference entre la distance entre notre unite et la previously closest unite est grande que celle avec la nouvelle unite
+                    if (Vector3.Distance(unite.transform.position, tower.transform.position) <
+                        Vector3.Distance(unite.transform.position, closestTower.transform.position))
                     {
-                        // Si la difference entre la distance entre notre unite et la previously closest unite est grande que celle avec la nouvelle unite
-                        if (Vector3.Distance(unite.transform.position, _tower.transform.position) < Vector3.Distance(unite.transform.position, closestTower.transform.position))
-                        {
-                            closestTower = _tower;
-                        }
+                        closestTower = tower;
                     }
-                    else
-                    {
-                        closestTower = _tower;
-                    }
+                }
+                else
+                {
+                    closestTower = tower;
                 }
             }
         }
+        
         return closestTower;
     }
 }
