@@ -60,8 +60,6 @@ public class Team : MonoBehaviour
             
             // Aviser a quelle equipe il appartient
             newUnite.SetTeam(this);
-            
-            Debug.Log("Ajoute unite");
         }
     }
     

@@ -76,7 +76,7 @@ public class Unite : MonoBehaviour
         healthPoints = maxHealthPoints;
         movementSpeed = 1.5f;
         attackCooldown = 1.5f;
-        attackDistance = 0.5f;
+        attackDistance = 1.5f;
         strength = new Vector2(15f, 20f);
         attackRadius = 1.5f;
     }
@@ -99,20 +99,18 @@ public class Unite : MonoBehaviour
         // Calculer difference de temps entre maintenant et lastAttackTs
         return Time.time >= lastAttackTs + attackCooldown;
     }
-
+    
     public void Attack(Vector2 _position)
     {
         // Verifier que l'attaque est prete
         if (!AttackReady())
         {
-            Debug.LogWarning("Tentative d'attaquer echouee car attaque par prete");
             return;
         }
         
         // Verifier distance avec position
         if (Vector2.Distance(transform.position, _position) > attackDistance)
         {
-            Debug.LogWarning("Tentative d'attaquer echouee car trop loin");
             return;
         }
         
@@ -134,7 +132,6 @@ public class Unite : MonoBehaviour
         // Trier les colliders
         foreach (Collider2D collider in colliders)
         {
-            Debug.Log("Is a unit");
             // Verifier s'il s'agit d'un Unite
             if (collider.TryGetComponent(out Unite _unite))
             {
@@ -151,8 +148,14 @@ public class Unite : MonoBehaviour
     private void GetDamaged(float degats)
     {
         // Verifier les iframes
+        // Si le temps est de 120s et que le creationtime est de 119s
         if (Time.time < creationTs + 2f)
+        {
             return;
+        }
+
+        
+        Debug.Log(healthPoints);
         
         // Perdre des points de vie
         healthPoints -= degats;

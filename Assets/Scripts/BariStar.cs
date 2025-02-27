@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BariStar : MonoBehaviour
@@ -10,8 +11,7 @@ public class BariStar : MonoBehaviour
     {
         idle,
         walk,
-        combat,
-        smartCombat,
+        combat
     }
     
     // Etat actuel du state machine
@@ -69,25 +69,13 @@ public class BariStar : MonoBehaviour
 
     void Update_StateWalk()
     {
-        // Recuperer tous les colliders a proximite
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, unite.attackRadius + 2.5f);
-        
-        // Verifier s'il s'agit d'une unite
-        foreach (var collider in colliders)
+        Unite closestEnemy = FindClosestEnemy();
+        if (closestEnemy)
         {
-            // S'il  s'agit d'une unite, attaquer
-            if (collider.TryGetComponent(out Unite _unite))
-            {
-                if (unite.team != _unite.team)
-                {
-                    // Aller attaquer
-                    state = States.combat;
-                    
-                    unite.SetTarget(_unite);
-                    
-                    return;
-                }
-            }
+            Debug.Log("On a trouve un closest ennemi!");
+            unite.SetTarget(closestEnemy);
+            state = States.combat;
+            return;
         }
         
         // Si atteint sa destination, attendre
@@ -98,7 +86,6 @@ public class BariStar : MonoBehaviour
                 state = States.idle;
                 return;
             }
-            
         }
     }
 
@@ -116,5 +103,73 @@ public class BariStar : MonoBehaviour
         
         // Tenter l'attaque du nemesis
         unite.Attack(unite.target.transform.position);
+    }
+
+    private Unite FindClosestEnemy()
+    {
+        Unite closestEnemy = null;
+        
+        // Recuperer tous les colliders a proximite
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(unite.transform.position, 1000f);
+            
+        // Verifier s'il s'agit d'une unite
+        foreach (var collider in colliders)
+        {
+            // S'il  s'agit d'une unite, attaquer
+            if (collider.TryGetComponent(out Unite _unite))
+            {
+                // Si c'est pas un allie
+                if (unite.team != _unite.team)
+                {
+                    if (closestEnemy)
+                    {
+                        // Si la difference entre la distance entre notre unite et la previously closest unite est grande que celle avec la nouvelle unite
+                        if (Vector3.Distance(unite.transform.position, _unite.transform.position) < Vector3.Distance(unite.transform.position, closestEnemy.transform.position))
+                        {
+                            closestEnemy = _unite;
+                        }
+                    }
+                    else
+                    {
+                        closestEnemy = _unite;
+                    }
+                }
+            }
+        }
+        return closestEnemy;
+    }
+
+    private Tower FindClosestTower()
+    {
+        Tower closestTower = null;
+        
+        // Recuperer tous les colliders a proximite
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(unite.transform.position, 1000f);
+            
+        // Verifier s'il s'agit d'une unite
+        foreach (var collider in colliders)
+        {
+            // S'il  s'agit d'une unite, attaquer
+            if (collider.TryGetComponent(out Tower _tower))
+            {
+                // Si c'est pas un allie
+                if (unite.team.towers.Contains(_tower))
+                {
+                    if (closestTower)
+                    {
+                        // Si la difference entre la distance entre notre unite et la previously closest unite est grande que celle avec la nouvelle unite
+                        if (Vector3.Distance(unite.transform.position, _tower.transform.position) < Vector3.Distance(unite.transform.position, closestTower.transform.position))
+                        {
+                            closestTower = _tower;
+                        }
+                    }
+                    else
+                    {
+                        closestTower = _tower;
+                    }
+                }
+            }
+        }
+        return closestTower;
     }
 }
