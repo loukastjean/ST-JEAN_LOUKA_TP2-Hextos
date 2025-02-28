@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 2593684008538299592}
   - component: {fileID: 7752039633391988344}
   - component: {fileID: 3374116355238404860}
-  - component: {fileID: 953803321800593184}
   - component: {fileID: 2939315620038268615}
   - component: {fileID: 4170002428279630011}
   - component: {fileID: 5074035095718021539}
+  - component: {fileID: 7926831622347251178}
   m_Layer: 0
   m_Name: Goblin Fantassin
   m_TagString: Untagged
@@ -124,18 +124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e39f6090724e4a4a8aadeb042afa2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &953803321800593184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1359591456647302623}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b99807433ce9d4e42a158d5957103938, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &2939315620038268615
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -205,3 +193,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 017d1613113914befabbdcc6161d820d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &7926831622347251178
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359591456647302623}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7f767df61cd2b4fa18c1b847f5a44988, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

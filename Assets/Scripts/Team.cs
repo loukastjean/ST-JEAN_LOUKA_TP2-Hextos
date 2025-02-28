@@ -49,7 +49,17 @@ public class Team : MonoBehaviour
     private void Reinforcement()
     {
         // Verifier la taille de la liste
-        int towersPossessed = 2;
+        int towersPossessed = 0;
+        
+        // Calculer nombre de tours qui nous appartiennent
+        foreach (Tower tower in towers)
+        {
+            if (tower.ownerTeam == this)
+            {
+                towersPossessed++;
+            }
+        }
+        
         for (int i = 0; i < NB_UNITE_PER_REINFORCEMENT + towersPossessed && unites.Count < NB_UNITE_MAX; i++)
         {
             // Instancier nouvelle unite

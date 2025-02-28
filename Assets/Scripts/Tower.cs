@@ -16,6 +16,9 @@ public class Tower : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Recuperer tous les colliders a proximite
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 10f);
+        
         
     }
 }

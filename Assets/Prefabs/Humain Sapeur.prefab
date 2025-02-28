@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4170002428279630011}
   - component: {fileID: 5074035095718021539}
   m_Layer: 0
-  m_Name: Humain Fantassin
+  m_Name: Humain Sapeur
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 50
-  m_Sprite: {fileID: 590178598, guid: d0191466bf4a74d4f94bc91528a085b6, type: 3}
+  m_Sprite: {fileID: -1478519994, guid: 7fe9058b3710c014a8f8aa6a02548378, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -155,10 +155,10 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.048512697, y: 0.48488986}
+  m_Offset: {x: -0.012148619, y: 0.42871237}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.33}
+    pivot: {x: 0.5, y: 0.36}
     oldSize: {x: 3, y: 3}
     newSize: {x: 3, y: 3}
     adaptiveTilingThreshold: 0.5
@@ -166,7 +166,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.7155137, y: 0.9509628}
+  m_Size: {x: 0.5347638, y: 0.83134556}
   m_EdgeRadius: 0
 --- !u!114 &4170002428279630011
 MonoBehaviour:
