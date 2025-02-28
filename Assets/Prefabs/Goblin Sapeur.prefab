@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2939315620038268615}
   - component: {fileID: 4170002428279630011}
   - component: {fileID: 5074035095718021539}
+  - component: {fileID: 5412204448373122143}
   m_Layer: 0
   m_Name: Goblin Sapeur
   m_TagString: Untagged
@@ -177,7 +178,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1359591456647302623}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fce303ad49f1848a6875279d9ae1cf63, type: 3}
+  m_Script: {fileID: 11500000, guid: 615748e4287f54073ac4ce1af2846c8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &5074035095718021539
@@ -192,3 +193,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 017d1613113914befabbdcc6161d820d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  etatActuel: 0
+--- !u!95 &5412204448373122143
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359591456647302623}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 66e70d9a3f7894e9d8afc4b02adfff16, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

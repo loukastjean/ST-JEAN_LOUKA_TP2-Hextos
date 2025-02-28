@@ -1,169 +1,142 @@
 using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// Ce qui n'est pas autorise
-/// --------------------------------------
-/// 1. Modifier les noms des fonctions
-/// 2. Modifier les parametres acceptes par les fonctions
-///
-/// Ce qui est autorise
-/// --------------------------------------
+/// Ce que vous pouvez faire
+/// -------------------------------
 /// 1. Modifier le contenu des fonctions
-/// 2. Creer des surcharges aux fonctiones
+/// 2. Créer des surcharges de fonctions
 /// 
+/// Ce que vous ne pouvez PAS faire
+/// --------------------------------
+/// 1. Modifier les noms de fonctions
+/// 2. Modifier les paramètres des fonctions
+/// 3. Modifier les noms des variables
 /// </summary>
 public class Unite : MonoBehaviour
 {
-    // [Header("Attributes")]
-    // Attributs de l'unite
-    public float healthPoints { get; private set; }
-    public float maxHealthPoints { get; private set; }
-    
-    public float movementSpeed { get; private set; }
-    
-    public Vector2 strength { get; private set; }
-    
-    public float attackCooldown { get; private set; }
-    public float attackDistance { get; private set; }
-    public float attackRadius { get; private set; }
+    // Attributs
+    public float pointsVie { get; private set; }
+    public float pointsVieMax { get; private set; }
+    public float vitesseDeplacement { get; private set; }
+    public Vector2 force { get; private set; }
+    public float delaiAttaque { get; private set; }
+    public float distanceAttaque { get; private set; }
+    public float rayonAttaque { get; private set; }
 
-    // Timerstamp du moment de l aderniere attaque
-    public float lastAttackTs { get; private set; }
-    
-    // Timestamp du moment de la creation
-    public float creationTs { get; private set; }
-    
-    // Cible que l'unite veut attaquer
-    public Unite target { get; private set; } // CA SUCE
-    
     public NavMeshAgent agent { get; private set; }
+
+    // Timestamp de la derniereAttaque
+    public float tsDerniereAttaque { get; private set; }
+
+    // Timestamp de la création de l'unité
+    public float tsCreation { get; private set; }
     
-    // Equipe
-    public Team team { get; private set; }
-    
-    // Start is called before the first frame update
+    // Equipe de l'unité
+    public Equipe equipe { get; private set; }
+
     void Start()
     {
-        AssignAttributes();
-        
+        AssignerAttributs();
         agent = GetComponent<NavMeshAgent>();
         
-        agent.speed = movementSpeed;
-        
-        creationTs = Time.time;
+        tsCreation = Time.time;
     }
 
-    // Update is called once per frame
     void Update()
     {
         
     }
-
-    // Assigner equipe
-    public void SetTeam(Team _team)
-    {
-        team = _team;
-    }
-
-    protected void AssignAttributes()
-    {
-        maxHealthPoints = 100f;
-        healthPoints = maxHealthPoints;
-        movementSpeed = 1.5f;
-        attackCooldown = 1.5f;
-        attackDistance = 1.5f;
-        strength = new Vector2(15f, 20f);
-        attackRadius = 1.5f;
-    }
     
-    // Assigner la cible
-    public void SetTarget(Unite _target)
+    protected void AssignerAttributs()
     {
-        target = _target;
+        pointsVieMax = 100f;
+        pointsVie = pointsVieMax;
+        vitesseDeplacement = 1.5f;
+        delaiAttaque = 1.5f;
+        distanceAttaque = 1.5f;
+        force = new Vector2(15f, 20f);
+        rayonAttaque = 1.5f;
     }
-    
-    // Donne une destination a l'unite
+
+    // Assigner l'équipe de l'unité
+    public void SetEquipe(Equipe equipe)
+    {
+        this.equipe = equipe;
+    }
+
+    // Demander à l'agent de se rendre à une destination
     public void SetDestination(Vector2 destination)
     {
         agent.SetDestination(destination);
     }
-
-    // Verifier si on peut attaquer
-    public bool AttackReady()
-    {
-        // Calculer difference de temps entre maintenant et lastAttackTs
-        return Time.time >= lastAttackTs + attackCooldown;
-    }
     
-    public void Attack(Vector2 _position)
+    // Indique si l'unité peut attaquer (selon le delaiAttaque)
+    public bool AttaqueEstPrete()
     {
-        // Verifier que l'attaque est prete
-        if (!AttackReady())
-        {
-            return;
-        }
-        
-        // Verifier distance avec position
-        if (Vector2.Distance(transform.position, _position) > attackDistance)
-        {
-            return;
-        }
-        
-        // Effectuer l'attaque
-        InflictDamage(_position, Random.Range(strength.x, strength.y));
-        
-        // Modifier le lastAttackTs
-        lastAttackTs = Time.time;
-        
-        // TODO: Animation d'attaque
-        
+        return Time.time >= tsDerniereAttaque + delaiAttaque;
     }
 
-    protected virtual void InflictDamage(Vector2 position, float damage)
+    public void Attaquer(Vector2 position)
     {
-        // Recuperer tous les colliders a proximite de la position
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(position, attackRadius);
+        // Vérifier si le délaiAttaque le permet
+        if (!AttaqueEstPrete())
+        {
+            return;
+        }
+        
+        // Vérifier si la distanceAttaque le permet
+        if (Vector2.Distance(transform.position, position) > distanceAttaque)
+        {
+            return;
+        }
+        
+        // Effectuer l'attaque (avec des dégats aléatoires)
+        InfligerDegats(position, Random.Range(force.x, force.y));
+        
+        // Remettre le timestamp à "maintenant"
+        tsDerniereAttaque = Time.time;
+    }
 
-        // Trier les colliders
+    protected virtual void InfligerDegats(Vector2 position, float degats)
+    {
+        // Récupérer les colliders à proximité de position
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(position, rayonAttaque);
+        
+        // Vérifier chaque collider un par un
         foreach (Collider2D collider in colliders)
         {
-            // Verifier s'il s'agit d'un Unite
+            // Vérifier s'il s'agit d'une unité
             if (collider.TryGetComponent(out Unite _unite))
             {
-                // Verifier qu'elle ne soit pas dans l'equipe
-                if (team != _unite.team)
+                // Vérifier si elle est dans l'équipe adverse
+                if (equipe != _unite.equipe)
                 {
                     // Infliger des degats
-                    _unite.GetDamaged(damage);
+                    _unite.SubirDegats(degats);
                 }
             }
         }
     }
 
-    private void GetDamaged(float degats)
+    void SubirDegats(float degats)
     {
-        // Verifier les iframes
-        // Si le temps est de 120s et que le creationtime est de 119s
-        if (Time.time < creationTs + 2f)
-        {
+        // Vérifier l'immunité de 2 secondes
+        if (Time.time < tsCreation + 2f)
             return;
-        }
         
-        // Perdre des points de vie
-        healthPoints -= degats;
+        // Subir des dégats
+        pointsVie -= degats;
         
-        // Verifier si je suis mort
-        if (healthPoints <= 0)
+        // Vérifier si l'unité est morte
+        if (pointsVie <= 0f)
         {
-            // Auto destruction dans 10.. 9..
-            team.UniteDeath(this);
+            // Aviser l'équipe
+            equipe.UniteMorte(this);
             
-            // Detruire
+            // Disparition
             Destroy(gameObject);
         }
     }

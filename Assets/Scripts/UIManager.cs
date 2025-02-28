@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class UI : MonoBehaviour
 {
-    public Team teamGoblins;
-    public Team teamHumains;
+    public Equipe teamGoblins;
+    public Equipe teamHumains;
 
     private Array towers;
     
@@ -19,7 +19,7 @@ public class UI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        towers = GetComponents<Tower>();
+        towers = GetComponents<TourRavitaillement>();
     }
 
     // Update is called once per frame

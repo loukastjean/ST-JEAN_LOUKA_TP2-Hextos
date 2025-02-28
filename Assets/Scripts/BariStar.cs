@@ -5,104 +5,107 @@ using UnityEngine;
 
 public class BariStar : MonoBehaviour
 {
-    private Unite unite;
-
-    private enum States
+    // Liste des états du state machine
+    enum Etats
     {
-        idle,
-        walk,
+        attente,
+        marche,
         combat
     }
+
+    [SerializeField] Etats etatActuel;
+    Unite unite;
     
-    // Etat actuel du state machine
-    private States state;
+    // Cible ennemi que l'unité pourchasse
+    Unite nemesis;
     
-    // Start is called before the first frame update
     void Start()
     {
+        etatActuel = Etats.attente;
         unite = GetComponent<Unite>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        switch (state)
+        switch (etatActuel)
         {
-            case States.idle:
-                Update_StateIdle();
+            case Etats.attente:
+                Update_EtatAttente();
                 break;
-            case States.walk:
-                Update_StateWalk();
+            case Etats.marche:
+                Update_EtatMarche();
                 break;
-            case States.combat:
-                Update_StateCombat();
+            case Etats.combat:
+                Update_EtatCombat();
                 break;
         }
     }
 
-    void Update_StateIdle()
-    {
-        Tower tower = GetClosestEnemyTower();
         
-        // Si pas proprietaire, s'y rendre
-        if (tower.ownerTeam != unite.team)
+    void Update_EtatAttente()
+    {
+        // Trouver une tour n'appartenant pas à mon équipe > S'y diriger
+        TourRavitaillement tour = GetClosestEnemyTower();
+        
+        // Comparer le propriétaire de la tour à mon équipe
+        if (tour.proprietaire != unite.equipe)
         {
-            // Diriger vers tour
-            unite.SetDestination(tower.transform.position);
-            
-            // Marcher vers cette tour
-            state = States.walk;
-            
+            // S'y diriger
+            unite.SetDestination(tour.transform.position);
+            etatActuel = Etats.marche;
             return;
         }
-
-        // Choisir une tour aleatoire ou se diriger
-        int randomIndexTower = Random.Range(0, unite.team.towers.Length);
-        
-        unite.SetDestination(unite.team.towers[randomIndexTower].transform.position);
-        
-        state = States.walk;
+    
+        // Se diriger vers une tour aléatoire
+        int indexTourAleatoire = Random.Range(0, unite.equipe.tours.Length);
+    
+        // S'y diriger
+        unite.SetDestination(unite.equipe.tours[indexTourAleatoire].transform.position);
+        etatActuel = Etats.marche;
         return;
     }
 
-    void Update_StateWalk()
+    void Update_EtatMarche()
     {
         Unite closestEnemy = GetClosestEnemy();
+        // TODO: Si un ennemi à proximité, je l'attaque
         if (closestEnemy)
         {
-            unite.SetTarget(closestEnemy);
-            state = States.combat;
-            return;
+            // Assigner une cible
+            nemesis = closestEnemy;
+
+            // Transition vers combat
+            etatActuel = Etats.combat;
         }
-        
-        // Si atteint sa destination, attendre
-        if (!unite.agent.pathPending)
+
+
+        // Arrivé à destination, on retourne en attente
+        if (UniteAtteintDestination())
         {
-            if (unite.agent.remainingDistance <= unite.agent.stoppingDistance)
-            {
-                state = States.idle;
-                return;
-            }
+            etatActuel = Etats.attente;
+            return;
         }
     }
 
-    void Update_StateCombat()
+    void Update_EtatCombat()
     {
-        // Si le nemesis meurt, retourne vers marche
-        if (!unite.target)
+        // Tant que ma cible est en vie
+        if (nemesis != null)
         {
-            state = States.walk;
+            // Se déplacer vers elle
+            unite.SetDestination(nemesis.transform.position);
+            
+            // Tenter de l'attaquer
+            unite.Attaquer(nemesis.transform.position);
+
             return;
         }
         
-        // Continuer a marcher vers nemesis
-        unite.SetDestination(unite.target.transform.position);
-        
-        // Tenter l'attaque du nemesis
-        unite.Attack(unite.target.transform.position);
+        // Si la cible meurt, je trouve une nouvelle destination
+        etatActuel = Etats.attente;
     }
 
-    private Unite GetClosestEnemy()
+    Unite GetClosestEnemy()
     {
         Unite closestEnemy = null;
         
@@ -123,7 +126,7 @@ public class BariStar : MonoBehaviour
         return closestEnemy;
     }
 
-    private List<Unite> GetEnnemies()
+    List<Unite> GetEnnemies()
     {
         List<Unite> ennemies = new List<Unite>();
         
@@ -137,7 +140,7 @@ public class BariStar : MonoBehaviour
             if (collider.TryGetComponent(out Unite _unite))
             {
                 // Si c'est pas un allie
-                if (unite.team != _unite.team)
+                if (unite.equipe != _unite.equipe)
                 {
                     ennemies.Add(_unite);
                 }
@@ -146,31 +149,55 @@ public class BariStar : MonoBehaviour
         return ennemies;
     }
 
-    private Tower GetClosestEnemyTower()
+    TourRavitaillement GetClosestEnemyTower()
     {
-        Tower closestTower = null;
+        TourRavitaillement closestTower = null;
         
-        foreach (var tower in unite.team.towers)
+        foreach (var tour in unite.equipe.tours)
         {
             // Si c'est pas un allie
-            if (unite.team.towers.Contains(tower))
+            if (unite.equipe.tours.Contains(tour))
             {
                 if (closestTower)
                 {
                     // Si la difference entre la distance entre notre unite et la previously closest unite est grande que celle avec la nouvelle unite
-                    if (Vector3.Distance(unite.transform.position, tower.transform.position) <
+                    if (Vector3.Distance(unite.transform.position, tour.transform.position) <
                         Vector3.Distance(unite.transform.position, closestTower.transform.position))
                     {
-                        closestTower = tower;
+                        closestTower = tour;
                     }
                 }
                 else
                 {
-                    closestTower = tower;
+                    closestTower = tour;
                 }
             }
         }
         
         return closestTower;
     }
+    
+    // Indique si l'unité à atteint sa destination
+    bool UniteAtteintDestination()
+    {
+        // Vérifier qu'il n'y a pas un chemin en cours de calcul
+        if (!unite.agent.pathPending)
+        {
+            return unite.agent.remainingDistance <= unite.agent.stoppingDistance;
+        }
+
+        return false;
+    }
+    
+    // Tente de rester a l'exterieur du rayon d'attaque de l'ennemi jusqu'a ce qu'il puisse attaquer de nouveau
+    bool KeepAwayFromEnnemies()
+    {
+        return true;
+    }
+    
 }
+
+
+
+
+
