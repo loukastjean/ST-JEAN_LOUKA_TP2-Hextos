@@ -1,0 +1,3 @@
+[submodule "Assets/hextos-repo-du-prof"]
+	path = Assets/hextos-repo-du-prof
+	url = https://gitlab.com/jeanmichel.laliberte/hextos-repo-du-prof.git
