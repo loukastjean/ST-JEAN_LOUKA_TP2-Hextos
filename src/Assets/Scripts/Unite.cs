@@ -19,10 +19,10 @@ public class Unite : MonoBehaviour
 {
     // Attributs
     public float pointsVie { get; private set; }
-    public float pointsVieMax { get; private set; }
-    public float vitesseDeplacement { get; private set; }
-    public Vector2 force { get; private set; }
-    public float delaiAttaque { get; private set; }
+    float pointsVieMax
+    float vitesseDeplacement
+    Vector2 force
+    float delaiAttaque
     public float distanceAttaque { get; private set; }
     public float rayonAttaque { get; private set; }
 

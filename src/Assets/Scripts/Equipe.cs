@@ -11,8 +11,8 @@ public class Equipe : MonoBehaviour
     List<Unite> unites = new List<Unite>();
     public TourRavitaillement[] tours { get; private set; }
 
-    private const int NB_UNITES_PAR_RAVITAILLEMENT = 5;
-    private const int NB_UNITES_MAX = 15;
+    const int NB_UNITES_PAR_RAVITAILLEMENT = 5;
+    const int NB_UNITES_MAX = 15;
     
     // Total des vies restantes à l'équipe
     int nbViesRestantes = 100;

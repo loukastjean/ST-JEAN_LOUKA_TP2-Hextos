@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class UI : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
     public Equipe teamGoblins;
     public Equipe teamHumains;
 
-    private Array towers;
+    TourRavitaillement[] towers;
     
     public TMP_Text teamHumainsNbTowers;
     public TMP_Text teamGoblinsNbTowers;
