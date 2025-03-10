@@ -79,7 +79,7 @@ public class Unite : MonoBehaviour
         return Time.time >= tsDerniereAttaque + delaiAttaque;
     }
 
-    public void Attaquer(Vector2 position)
+    public void Attaquer(Vector2 position, Animator animator)
     {
         // Vérifier si le délaiAttaque le permet
         if (!AttaqueEstPrete())
@@ -92,6 +92,8 @@ public class Unite : MonoBehaviour
         {
             return;
         }
+        
+        animator.SetTrigger("attack");
         
         // Effectuer l'attaque (avec des dégats aléatoires)
         InfligerDegats(position, Random.Range(force.x, force.y));

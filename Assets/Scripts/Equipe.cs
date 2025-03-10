@@ -7,15 +7,17 @@ public class Equipe : MonoBehaviour
     
     public GameObject prefabFantassin;
     public GameObject prefabSapeur;
-    
-    List<Unite> unites = new List<Unite>();
+
+    public List<Unite> unites { get; private set; } = new List<Unite>();
     public TourRavitaillement[] tours { get; private set; }
 
     const int NB_UNITES_PAR_RAVITAILLEMENT = 5;
     const int NB_UNITES_MAX = 15;
     
     // Total des vies restantes à l'équipe
-    int nbViesRestantes = 100;
+    public int nbViesRestantes { get; private set; } = 100;
+    
+    Animator animator;
     
     void Start()
     {
@@ -45,12 +47,12 @@ public class Equipe : MonoBehaviour
              && unites.Count < NB_UNITES_MAX; i++
         )
         {
-            // TODO: Calculer une position aléatoire autour de la base
+            Vector2 spawnRandomization = new Vector2(Random.Range(-3, 3), Random.Range(-3, 3));
             
             // Instancier une unité
             Unite newUnite = Instantiate(
                 prefabFantassin,
-                transform.position,
+                (Vector2)transform.position + spawnRandomization,
                 Quaternion.identity
             ).GetComponent<Unite>();
             
