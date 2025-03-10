@@ -31733,8 +31733,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa0a5301e18e649f893bfa8204d9754c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamGoblins: {fileID: 0}
-  teamHumains: {fileID: 0}
+  teamGoblins: {fileID: 1459442788}
+  teamHumains: {fileID: 95641853}
   teamHumainsNbTowers: {fileID: 511175406}
   teamGoblinsNbTowers: {fileID: 1290990648}
 --- !u!1 &1546829205
