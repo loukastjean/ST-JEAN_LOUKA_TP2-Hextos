@@ -26,7 +26,7 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateNbTowers();
+        UpdateNbTours();
         UpdateNbVies();
     }
 
@@ -35,7 +35,7 @@ public class UIManager : MonoBehaviour
         teamGoblinsNbVies.text = teamGoblins.nbViesRestantes.ToString();
         teamHumainsNbVies.text = teamHumains.nbViesRestantes.ToString();
     }
-    void UpdateNbTowers()
+    void UpdateNbTours()
     {
         teamHumainsNbTowers.text = 0.ToString();
         teamGoblinsNbTowers.text = 0.ToString();

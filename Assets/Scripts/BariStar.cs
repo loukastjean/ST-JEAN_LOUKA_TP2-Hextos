@@ -48,7 +48,7 @@ public class BariStar : MonoBehaviour
     void Update_EtatAttente()
     {
         // Trouver une tour n'appartenant pas à mon équipe > S'y diriger
-        TourRavitaillement tour = GetClosestEnemyTower();
+        TourRavitaillement tour = RecupererTourEnnemiePlusProche();
         
         animator.SetBool("isWalking", false);
         
@@ -72,8 +72,8 @@ public class BariStar : MonoBehaviour
 
     void Update_EtatMarche()
     {
-        Unite closestEnemy = GetClosestEnemy();
-        TourRavitaillement closestEnemyTower = GetClosestEnemyTower();
+        Unite closestEnemy = RecupererEnnemiPlusProche();
+        TourRavitaillement closestEnemyTower = RecupererTourEnnemiePlusProche();
         
         animator.SetBool("isWalking", true);
         
@@ -115,11 +115,11 @@ public class BariStar : MonoBehaviour
         etatActuel = Etats.attente;
     }
 
-    Unite GetClosestEnemy()
+    Unite RecupererEnnemiPlusProche()
     {
         Unite closestEnemy = null;
         
-        List<Unite> ennemies = GetEnnemies();
+        List<Unite> ennemies = RecupererEnnemis();
         
         foreach (var enemy in ennemies)
         {
@@ -136,9 +136,9 @@ public class BariStar : MonoBehaviour
         return closestEnemy;
     }
 
-    List<Unite> GetEnnemies()
+    List<Unite> RecupererEnnemis()
     {
-        List<Unite> ennemies = new List<Unite>();
+        List<Unite> ennemis = new List<Unite>();
         
         // Recuperer tous les colliders a proximite
         Collider2D[] colliders = Physics2D.OverlapCircleAll(unite.transform.position, 1000f);
@@ -152,23 +152,38 @@ public class BariStar : MonoBehaviour
                 // Si c'est pas un allie
                 if (unite.equipe != _unite.equipe)
                 {
-                    ennemies.Add(_unite);
+                    ennemis.Add(_unite);
                 }
             }
         }
-        return ennemies;
+        return ennemis;
     }
 
-    TourRavitaillement GetClosestEnemyTower()
+    TourRavitaillement[] RecupererToursEnnemies()
     {
-        TourRavitaillement closestTower = null;
-        
+        TourRavitaillement[] tours = FindObjectsOfType<TourRavitaillement>();
+
         foreach (var tour in unite.equipe.tours)
         {
             // Si c'est pas un allie
-            if (unite.equipe.tours.Contains(tour))
+            if (!unite.equipe.tours.Contains(tour))
             {
-                if (closestTower)
+                tours[tours.Length - 1] = tour;
+            }
+        }
+
+        return tours;
+    }
+
+    TourRavitaillement RecupererTourEnnemiePlusProche()
+    {
+        TourRavitaillement[] toursEnnemies = RecupererToursEnnemies();
+        TourRavitaillement closestTower = null;
+        
+        foreach (var tour in toursEnnemies)
+        {
+            
+            if (closestTower)
                 {
                     // Si la difference entre la distance entre notre unite et la previously closest unite est grande que celle avec la nouvelle unite
                     if (Vector3.Distance(unite.transform.position, tour.transform.position) <
@@ -176,11 +191,10 @@ public class BariStar : MonoBehaviour
                     {
                         closestTower = tour;
                     }
-                }
-                else
-                {
-                    closestTower = tour;
-                }
+            }
+            else
+            {
+                closestTower = tour;
             }
         }
         
@@ -200,7 +214,7 @@ public class BariStar : MonoBehaviour
     }
     
     // Tente de rester a l'exterieur du rayon d'attaque de l'ennemi jusqu'a ce qu'il puisse attaquer de nouveau
-    bool KeepAwayFromEnnemies()
+    bool ResterLoinEnnemis()
     {
         return true;
     }
