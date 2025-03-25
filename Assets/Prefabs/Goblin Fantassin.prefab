@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 3374116355238404860}
   - component: {fileID: 2939315620038268615}
   - component: {fileID: 4170002428279630011}
-  - component: {fileID: 5074035095718021539}
   - component: {fileID: 7926831622347251178}
+  - component: {fileID: 7142474507177198705}
   m_Layer: 0
   m_Name: Goblin Fantassin
   m_TagString: Untagged
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
+  m_SortingLayerID: 703225605
   m_SortingLayer: 0
   m_SortingOrder: 50
   m_Sprite: {fileID: -1416558848, guid: 948d5c77c7fd72843b30bdc15112f637, type: 3}
@@ -181,19 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75565992c2d0348808c02a5494297424, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5074035095718021539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1359591456647302623}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 017d1613113914befabbdcc6161d820d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  etatActuel: 0
+  animator: {fileID: 7926831622347251178}
 --- !u!95 &7926831622347251178
 Animator:
   serializedVersion: 5
@@ -215,3 +203,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7142474507177198705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359591456647302623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3017acd4443ff407eb7d05faab319fc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  etat: 0

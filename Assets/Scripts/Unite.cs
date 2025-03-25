@@ -19,10 +19,10 @@ public class Unite : MonoBehaviour
 {
     // Attributs
     public float pointsVie { get; protected set; }
-    protected float pointsVieMax;
-    protected float vitesseDeplacement;
-    protected Vector2 force;
-    protected float delaiAttaque;
+    public float pointsVieMax { get; protected set; }
+    public float vitesseDeplacement { get; protected set; }
+    public Vector2 force { get; protected set; }
+    public float delaiAttaque { get; protected set; }
     public float distanceAttaque { get; protected set; }
     public float rayonAttaque { get; protected set; }
 
@@ -37,10 +37,14 @@ public class Unite : MonoBehaviour
     // Equipe de l'unité
     public Equipe equipe { get; private set; }
 
+    public Animator animator;
+
     void Start()
     {
         AssignerAttributs();
         agent = GetComponent<NavMeshAgent>();
+        
+        animator = GetComponent<Animator>();
         
         tsCreation = Time.time;
     }
@@ -71,6 +75,7 @@ public class Unite : MonoBehaviour
     public void SetDestination(Vector2 destination)
     {
         agent.SetDestination(destination);
+        animator.SetBool("isWalking", true);
     }
     
     // Indique si l'unité peut attaquer (selon le delaiAttaque)
@@ -79,7 +84,7 @@ public class Unite : MonoBehaviour
         return Time.time >= tsDerniereAttaque + delaiAttaque;
     }
 
-    public void Attaquer(Vector2 position, Animator animator)
+    public void Attaquer(Vector2 position)
     {
         // Vérifier si le délaiAttaque le permet
         if (!AttaqueEstPrete())

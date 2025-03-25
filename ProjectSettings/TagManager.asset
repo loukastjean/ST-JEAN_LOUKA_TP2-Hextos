@@ -41,3 +41,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Dynamique
+    uniqueID: 4287341485
+    locked: 0

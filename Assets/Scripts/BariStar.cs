@@ -19,13 +19,10 @@ public class BariStar : MonoBehaviour
     // Cible ennemi que l'unité pourchasse
     Unite nemesis;
     
-    Animator animator;
-    
     void Start()
     {
         etatActuel = Etats.attente;
         unite = GetComponent<Unite>();
-        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -50,8 +47,6 @@ public class BariStar : MonoBehaviour
         // Trouver une tour n'appartenant pas à mon équipe > S'y diriger
         TourRavitaillement tour = RecupererTourEnnemiePlusProche();
         
-        animator.SetBool("isWalking", false);
-        
         // Comparer le propriétaire de la tour à mon équipe
         if (tour.proprietaire != unite.equipe)
         {
@@ -74,8 +69,6 @@ public class BariStar : MonoBehaviour
     {
         Unite closestEnemy = RecupererEnnemiPlusProche();
         TourRavitaillement closestEnemyTower = RecupererTourEnnemiePlusProche();
-        
-        animator.SetBool("isWalking", true);
         
         if (
             Vector2.Distance(transform.position, closestEnemy.transform.position) < 
@@ -106,7 +99,7 @@ public class BariStar : MonoBehaviour
             unite.SetDestination(nemesis.transform.position);
             
             // Tenter de l'attaquer
-            unite.Attaquer(nemesis.transform.position, animator);
+            unite.Attaquer(nemesis.transform.position);
 
             return;
         }
