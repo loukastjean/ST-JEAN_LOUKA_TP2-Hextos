@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "ST-JEAN_LOUKA_Hextos.sln"
+    "dotnet.defaultSolution": "ST-JEAN_LOUKA_TP2-Hextos.sln"
 }

@@ -18,13 +18,13 @@ using UnityEngine.AI;
 public class Unite : MonoBehaviour
 {
     // Attributs
-    public float pointsVie { get; private set; }
-    float pointsVieMax;
-    float vitesseDeplacement;
-    Vector2 force;
-    float delaiAttaque;
-    public float distanceAttaque { get; private set; }
-    public float rayonAttaque { get; private set; }
+    public float pointsVie { get; protected set; }
+    protected float pointsVieMax;
+    protected float vitesseDeplacement;
+    protected Vector2 force;
+    protected float delaiAttaque;
+    public float distanceAttaque { get; protected set; }
+    public float rayonAttaque { get; protected set; }
 
     public NavMeshAgent agent { get; private set; }
 
@@ -50,7 +50,7 @@ public class Unite : MonoBehaviour
         
     }
     
-    protected void AssignerAttributs()
+    protected virtual void AssignerAttributs()
     {
         pointsVieMax = 100f;
         pointsVie = pointsVieMax;
@@ -123,7 +123,7 @@ public class Unite : MonoBehaviour
         }
     }
 
-    void SubirDegats(float degats)
+    public void SubirDegats(float degats)
     {
         // Vérifier l'immunité de 2 secondes
         if (Time.time < tsCreation + 2f)
