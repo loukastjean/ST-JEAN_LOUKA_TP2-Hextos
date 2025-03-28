@@ -17,16 +17,5 @@ public class Sapeur : Unite
         force = new Vector2(50f, 75f);
         rayonAttaque = 7f;
     }
-
-    public override void Attaquer(Vector2 position)
-    {
-        // Vérifier si le délaiAttaque le permet et doit tenir une dynamite
-        if (AttaqueEstPrete())
-        {
-            animator.SetBool("isHoldingDynamite", true);
-            base.Attaquer(position);
-        }
-        animator.SetBool("isHoldingDynamite", false);
-    }
     
 }

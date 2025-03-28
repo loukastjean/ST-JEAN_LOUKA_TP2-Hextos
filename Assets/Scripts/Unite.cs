@@ -35,7 +35,6 @@ public class Unite : MonoBehaviour
     public float tsCreation { get; private set; }
     
     SpriteRenderer spriteRenderer;
-    //Rigidbody2D rigidBody;
     
     // Equipe de l'unité
     public Equipe equipe { get; private set; }
@@ -48,7 +47,6 @@ public class Unite : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         
         spriteRenderer = GetComponent<SpriteRenderer>();
-        //rigidBody = GetComponent<Rigidbody2D>();
         
         animator = GetComponent<Animator>();
         
