@@ -48,13 +48,28 @@ public class Equipe : MonoBehaviour
         )
         {
             Vector2 spawnRandomization = new Vector2(Random.Range(-3, 3), Random.Range(-3, 3));
+
+            Unite newUnite;
             
-            // Instancier une unité
-            Unite newUnite = Instantiate(
-                prefabFantassin,
-                (Vector2)transform.position + spawnRandomization,
-                Quaternion.identity
-            ).GetComponent<Unite>();
+            if (i % 2 == 0)
+            {
+                // Instancier un fantassin
+                newUnite = Instantiate(
+                    prefabFantassin,
+                    (Vector2)transform.position + spawnRandomization,
+                    Quaternion.identity
+                ).GetComponent<Unite>();
+            }
+            else
+            {
+                // Instancier un sapeur
+                newUnite = Instantiate(
+                    prefabSapeur,
+                    (Vector2)transform.position + spawnRandomization,
+                    Quaternion.identity
+                ).GetComponent<Unite>();
+            }
+
             
             // Ajouter l'unité à la liste des unités
             unites.Add(newUnite);

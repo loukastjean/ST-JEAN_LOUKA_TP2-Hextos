@@ -27,6 +27,9 @@ public class BariStar : MonoBehaviour
 
     void Update()
     {
+        if (unite.pointsVie <= 0)
+            return;
+        
         switch (etatActuel)
         {
             case Etats.attente:
@@ -175,15 +178,14 @@ public class BariStar : MonoBehaviour
         
         foreach (var tour in toursEnnemies)
         {
-            
             if (closestTower)
+            {
+                // Si la difference entre la distance entre notre unite et la previously closest unite est grande que celle avec la nouvelle unite
+                if (Vector3.Distance(unite.transform.position, tour.transform.position) <
+                    Vector3.Distance(unite.transform.position, closestTower.transform.position))
                 {
-                    // Si la difference entre la distance entre notre unite et la previously closest unite est grande que celle avec la nouvelle unite
-                    if (Vector3.Distance(unite.transform.position, tour.transform.position) <
-                        Vector3.Distance(unite.transform.position, closestTower.transform.position))
-                    {
-                        closestTower = tour;
-                    }
+                    closestTower = tour;
+                }
             }
             else
             {

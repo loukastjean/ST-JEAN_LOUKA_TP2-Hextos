@@ -34,6 +34,9 @@ public class Unite : MonoBehaviour
     // Timestamp de la création de l'unité
     public float tsCreation { get; private set; }
     
+    SpriteRenderer spriteRenderer;
+    //Rigidbody2D rigidBody;
+    
     // Equipe de l'unité
     public Equipe equipe { get; private set; }
 
@@ -44,6 +47,9 @@ public class Unite : MonoBehaviour
         AssignerAttributs();
         agent = GetComponent<NavMeshAgent>();
         
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        //rigidBody = GetComponent<Rigidbody2D>();
+        
         animator = GetComponent<Animator>();
         
         tsCreation = Time.time;
@@ -51,7 +57,14 @@ public class Unite : MonoBehaviour
 
     void Update()
     {
-        
+        if (agent.velocity.x < 0)
+        {
+            spriteRenderer.flipX = true;
+        }
+        else
+        {
+            spriteRenderer.flipX = false;
+        }
     }
     
     protected virtual void AssignerAttributs()
@@ -84,7 +97,7 @@ public class Unite : MonoBehaviour
         return Time.time >= tsDerniereAttaque + delaiAttaque;
     }
 
-    public void Attaquer(Vector2 position)
+    public virtual void Attaquer(Vector2 position)
     {
         // Vérifier si le délaiAttaque le permet
         if (!AttaqueEstPrete())
@@ -143,8 +156,12 @@ public class Unite : MonoBehaviour
             // Aviser l'équipe
             equipe.UniteMorte(this);
             
+            animator.SetTrigger("die");
+            
+            agent.destination = transform.position;
+            
             // Disparition
-            Destroy(gameObject);
+            Destroy(gameObject, 5f);
         }
     }
 }

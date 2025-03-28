@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Dynamite : MonoBehaviour
 {
-    private float degats;
-    private Vector2 destination;
+    public float degats;
+    public Vector2 destination;
 
     // La variable qui permet de donner un aspect 3d a la dynamite
     private float k;

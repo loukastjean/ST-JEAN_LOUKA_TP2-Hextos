@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4170002428279630011}
   - component: {fileID: 5074035095718021539}
   - component: {fileID: 6340887955837527124}
+  - component: {fileID: -34875824852452106}
   m_Layer: 0
   m_Name: Humain Sapeur
   m_TagString: Untagged
@@ -76,8 +77,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -7625811
+  m_SortingLayer: 1
   m_SortingOrder: 50
   m_Sprite: {fileID: -1478519994, guid: 7fe9058b3710c014a8f8aa6a02548378, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -216,3 +217,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-34875824852452106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359591456647302623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a36fafaed4ba54ac7b78308ec48e4441, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
