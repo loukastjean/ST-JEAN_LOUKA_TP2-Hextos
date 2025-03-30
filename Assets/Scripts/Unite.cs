@@ -55,6 +55,11 @@ public class Unite : MonoBehaviour
 
     void Update()
     {
+        if (pointsVie <= 0)
+        {
+            return;
+        }
+        
         if (agent.velocity.x < 0)
         {
             spriteRenderer.flipX = true;
@@ -155,11 +160,11 @@ public class Unite : MonoBehaviour
             equipe.UniteMorte(this);
             
             animator.SetTrigger("die");
-            
-            agent.destination = transform.position;
+
+            Destroy(agent);
             
             // Disparition
-            Destroy(gameObject, 5f);
+            Destroy(gameObject, 0.9f);
         }
     }
 }
