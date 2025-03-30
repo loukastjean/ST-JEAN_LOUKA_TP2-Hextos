@@ -7,15 +7,17 @@ using UnityEngine.AI;
 public class Sapeur : Unite
 {
     
+    public GameObject prefabDynamite;
+    
     protected override void AssignerAttributs()
     {
         pointsVieMax = 60f;
         pointsVie = pointsVieMax;
         vitesseDeplacement = 1f;
-        delaiAttaque = 3f;
-        distanceAttaque = 30f;
+        delaiAttaque = 5f;
+        distanceAttaque = 15f;
         force = new Vector2(50f, 75f);
-        rayonAttaque = 7f;
+        rayonAttaque = 3f;
     }
     
     public override void Attaquer(Vector2 position)
@@ -43,10 +45,15 @@ public class Sapeur : Unite
     
     protected override void InfligerDegats(Vector2 position, float degats)
     {
-        Dynamite dynamite = new Dynamite();
-        dynamite.transform.position = new Vector2(transform.position.x, transform.position.y + 1);
+        Dynamite dynamite = Instantiate(
+            prefabDynamite,
+            new Vector2(transform.position.x, transform.position.y + 1),
+            Quaternion.identity
+        ).GetComponent<Dynamite>();
+        
         dynamite.degats = degats;
         dynamite.destination = position;
+        dynamite.rayonAttaque = rayonAttaque;
     }
     
 }

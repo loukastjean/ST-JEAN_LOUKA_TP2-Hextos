@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 7752039633391988344}
   - component: {fileID: 3374116355238404860}
   - component: {fileID: 2939315620038268615}
-  - component: {fileID: 4170002428279630011}
   - component: {fileID: 5412204448373122143}
   - component: {fileID: 1571540879794607258}
   - component: {fileID: 2523902388854001447}
+  - component: {fileID: 7780464509098841599}
   m_Layer: 0
   m_Name: Goblin Sapeur
   m_TagString: Untagged
@@ -170,19 +170,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.7155137, y: 0.81417847}
   m_EdgeRadius: 0
---- !u!114 &4170002428279630011
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1359591456647302623}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75565992c2d0348808c02a5494297424, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 5412204448373122143}
 --- !u!95 &5412204448373122143
 Animator:
   serializedVersion: 5
@@ -229,3 +216,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a36fafaed4ba54ac7b78308ec48e4441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7780464509098841599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359591456647302623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e0c3d167d0d42608f320b42e3220346, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  prefabDynamite: {fileID: 8287576577676995057, guid: d40b20f6ed1794358bd524c276af1846, type: 3}

@@ -5,17 +5,16 @@ using UnityEngine;
 
 public class Dynamite : MonoBehaviour
 {
-    double gravite = 9.3;
+    double gravite = -2f;
     double creationTs;
     double tempsFinal;
 
     float vitesseDeplacement = 5f;
-    float rayonAttaque = 3;
 
     Vector2 deplacementUnitaire;
 
     // La variable qui permet de donner un aspect 3d a la dynamite
-    private double k = 5;
+    private double k = 0.5f;
     
     Animator animator;
     
@@ -23,6 +22,7 @@ public class Dynamite : MonoBehaviour
     Vector2 positionDepart;
     public float degats;
     public Vector2 destination;
+    public float rayonAttaque;
     
     
     // Start is called before the first frame update
@@ -34,7 +34,7 @@ public class Dynamite : MonoBehaviour
         
         creationTs = Time.time;
         
-        tempsFinal = (longeurDeplacement / vitesseDeplacement) + creationTs;
+        tempsFinal = (longeurDeplacement / vitesseDeplacement);
         
         deplacementUnitaire = (destination - positionDepart).normalized;
         
@@ -45,14 +45,16 @@ public class Dynamite : MonoBehaviour
     void Update()
     {
         
-        if (Vector2.Equals(transform.position, destination))
+        if (Vector2.Distance(transform.position, destination) <= 5.1f)
         {
             return;
         }
         
         CalculerEquationMouvement();
+        // Rotationne
+        transform.Rotate(new Vector3(0, 0, 180) * Time.deltaTime);
 
-        if (Vector2.Equals(transform.position, destination))
+        if (Vector2.Distance(transform.position, destination) <= 5.1f)
         {
             Explosion();
         }
@@ -63,11 +65,14 @@ public class Dynamite : MonoBehaviour
     {
         float tempsDepuisCreation = (float)(Time.time - creationTs);
         
-        double hauteur = ((gravite / 2) * Mathf.Pow(tempsDepuisCreation, 2)) - ((gravite / 2) * tempsFinal) * tempsDepuisCreation;
+        double hauteur = positionDepart.y + (gravite / 2 * Mathf.Pow(tempsDepuisCreation, 2) - gravite / 2 * tempsFinal * tempsDepuisCreation);
         
         Vector2 positionHorizontale = positionDepart + (vitesseDeplacement * tempsDepuisCreation * deplacementUnitaire);
         
         Vector2 positionSurParabole = new Vector2(positionHorizontale.x, (float)(positionHorizontale.y + k * hauteur));
+        
+        //TEST
+        //transform.position += new Vector3(0, vitesseDeplacement);
         
         transform.position = positionSurParabole;
     }
@@ -95,7 +100,7 @@ public class Dynamite : MonoBehaviour
         animator.SetTrigger("explode");
 
         InfligerDegats();
-            
+        
         // Disparition
         Destroy(gameObject, 0.5f);
     }

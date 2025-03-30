@@ -121,3 +121,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   degats: 0
   destination: {x: 0, y: 0}
+  rayonAttaque: 0

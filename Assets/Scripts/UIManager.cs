@@ -17,6 +17,11 @@ public class UIManager : MonoBehaviour
     public TMP_Text teamHumainsNbVies;
     public TMP_Text teamGoblinsNbVies;
     
+    public TMP_Text teamHumainsNbUnites;
+    public TMP_Text teamGoblinsNbUnites;
+
+    public TMP_Text timer;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -28,12 +33,14 @@ public class UIManager : MonoBehaviour
     {
         UpdateNbTours();
         UpdateNbVies();
+        UpdateNbUnites();
+        UpdateTimer();
     }
 
     void UpdateNbVies()
     {
-        teamGoblinsNbVies.text = teamGoblins.nbViesRestantes.ToString();
-        teamHumainsNbVies.text = teamHumains.nbViesRestantes.ToString();
+        teamGoblinsNbVies.text = $"{teamGoblins.nbViesRestantes} vies";
+        teamHumainsNbVies.text = $"{teamHumains.nbViesRestantes} vies";
     }
     void UpdateNbTours()
     {
@@ -55,5 +62,19 @@ public class UIManager : MonoBehaviour
 
         teamHumainsNbTowers.text += " tours";
         teamGoblinsNbTowers.text += " tours";
+    }
+
+    void UpdateNbUnites()
+    {
+        teamHumainsNbUnites.text = $"{teamHumains.unites.Count} unités";
+        teamGoblinsNbUnites.text = $"{teamGoblins.unites.Count} unités";
+    }
+
+    void UpdateTimer()
+    {
+        int minutes = Mathf.FloorToInt(Time.time / 60);
+        int seconds = Mathf.FloorToInt(Time.time % 60);
+        
+        timer.text = $"{minutes:D2}:{seconds:D2}";
     }
 }
