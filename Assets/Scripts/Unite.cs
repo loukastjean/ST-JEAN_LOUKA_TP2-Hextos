@@ -29,7 +29,7 @@ public class Unite : MonoBehaviour
     public NavMeshAgent agent { get; private set; }
 
     // Timestamp de la derniereAttaque
-    public float tsDerniereAttaque { get; private set; }
+    public float tsDerniereAttaque { get; protected set; }
 
     // Timestamp de la création de l'unité
     public float tsCreation { get; private set; }
