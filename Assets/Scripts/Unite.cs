@@ -40,6 +40,8 @@ public class Unite : MonoBehaviour
     public Equipe equipe { get; private set; }
 
     public Animator animator;
+    
+    AudioSource audioSource;
 
     void Start()
     {
@@ -51,6 +53,8 @@ public class Unite : MonoBehaviour
         animator = GetComponent<Animator>();
         
         tsCreation = Time.time;
+        
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -154,12 +158,14 @@ public class Unite : MonoBehaviour
         pointsVie -= degats;
         
         // Vérifier si l'unité est morte
-        if (pointsVie <= 0f)
+        if (pointsVie <= 0f && GetComponent<NavMeshAgent>() != null)
         {
             // Aviser l'équipe
             equipe.UniteMorte(this);
             
             animator.SetTrigger("die");
+            
+            //audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/mort"));
 
             Destroy(agent);
             

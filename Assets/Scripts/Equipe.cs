@@ -51,9 +51,9 @@ public class Equipe : MonoBehaviour
 
             Unite newUnite;
             
-            //if (i % 2 == 0)
+            if (i % 2 == 0)
             //if (1 == 2)
-            if (1 == 1)
+            //if (1 == 1)
             {
                 // Instancier un fantassin
                 newUnite = Instantiate(
