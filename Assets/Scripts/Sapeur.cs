@@ -15,32 +15,9 @@ public class Sapeur : Unite
         pointsVie = pointsVieMax;
         vitesseDeplacement = 1f;
         delaiAttaque = 5f;
-        distanceAttaque = 15f;
-        force = new Vector2(50f, 75f);
+        distanceAttaque = 10f;
+        force = new Vector2(1f, 2f);
         rayonAttaque = 3f;
-    }
-    
-    public override void Attaquer(Vector2 position)
-    {
-        // Vérifier si le délaiAttaque le permet
-        if (!AttaqueEstPrete())
-        {
-            return;
-        }
-        
-        // Vérifier si la distanceAttaque le permet
-        if (Vector2.Distance(transform.position, position) > distanceAttaque)
-        {
-            return;
-        }
-        
-        animator.SetTrigger("attack");
-        
-        // Effectuer l'attaque (avec des dégats aléatoires)
-        InfligerDegats(position, Random.Range(force.x, force.y));
-        
-        // Remettre le timestamp à "maintenant"
-        tsDerniereAttaque = Time.time;
     }
     
     protected override void InfligerDegats(Vector2 position, float degats)
@@ -51,7 +28,7 @@ public class Sapeur : Unite
             Quaternion.identity
         ).GetComponent<Dynamite>();
         
-        dynamite.degats = degats;
+        dynamite.degats = 1f;
         dynamite.destination = position;
         dynamite.rayonAttaque = rayonAttaque;
     }

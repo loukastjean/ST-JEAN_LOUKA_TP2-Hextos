@@ -6,18 +6,10 @@ public class CameraMouvementMusique : MonoBehaviour
 {
     float cameraSpeed = 8f;
     
-    AudioSource audioSource;
-    
-    AudioClip[] audioClips;
-    
-    AudioClip clip;
-    
     // Start is called before the first frame update
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-        
-        audioClips = Resources.LoadAll<AudioClip>("Musics");
+
     }
     
     
@@ -26,28 +18,9 @@ public class CameraMouvementMusique : MonoBehaviour
     void Update()
     {
         UpdateMouvementCamera();
-        UpdateAudioClip();
     }
 
-    void UpdateAudioClip()
-    {
-        if (!audioSource.isPlaying)
-        {
-             //audioSource.PlayOneShot(RandomClip(clip));
-        }
-    }
 
-    AudioClip RandomClip(AudioClip previousClip)
-    {
-        AudioClip chosenClip = audioClips[Random.Range(0, audioClips.Length)];
-
-        while (chosenClip == previousClip)
-        {
-            chosenClip = audioClips[Random.Range(0, audioClips.Length)];
-        }
-        
-        return chosenClip;
-    }
 
     void UpdateMouvementCamera()
     {

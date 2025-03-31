@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 
 public class Dynamite : MonoBehaviour
@@ -14,7 +15,7 @@ public class Dynamite : MonoBehaviour
     Vector2 deplacementUnitaire;
 
     // La variable qui permet de donner un aspect 3d a la dynamite
-    private double k = 0.5f;
+    private double k = 1f;
     
     Animator animator;
     
@@ -23,11 +24,20 @@ public class Dynamite : MonoBehaviour
     public float degats;
     public Vector2 destination;
     public float rayonAttaque;
+  
+    AudioSource audioSource;
+    public AudioClip clipExplosion;
+
+    bool exploded;
     
     
     // Start is called before the first frame update
     void Start()
     {
+        exploded = false;
+        
+        audioSource = GetComponent<AudioSource>();
+        
         positionDepart = transform.position;
         
         float longeurDeplacement = Vector2.Distance(transform.position, destination);
@@ -44,20 +54,19 @@ public class Dynamite : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        if (Vector2.Distance(transform.position, destination) <= 5.1f)
-        {
-            return;
-        }
-        
-        CalculerEquationMouvement();
-        // Rotationne
-        transform.Rotate(new Vector3(0, 0, 180) * Time.deltaTime);
-
-        if (Vector2.Distance(transform.position, destination) <= 5.1f)
+        if (Vector2.Distance(transform.position, destination) <= 1.5f && !exploded)
         {
             Explosion();
+            exploded = true;
         }
+        else if (exploded) { }
+        else
+        {
+            CalculerEquationMouvement();
+            // Rotationne
+            transform.Rotate(new Vector3(0, 0, 180) * Time.deltaTime);
+        }
+        
     }
 
     // On calcule ici l'equation pour le mouvement de la dynamite avec les maths
@@ -94,16 +103,16 @@ public class Dynamite : MonoBehaviour
         }
     }
     
-
+    
     void Explosion()
     {
         animator.SetTrigger("explode");
+        
+        audioSource.PlayOneShot(clipExplosion);
 
         InfligerDegats();
         
         // Disparition
         Destroy(gameObject, 0.5f);
     }
-    
-    
 }

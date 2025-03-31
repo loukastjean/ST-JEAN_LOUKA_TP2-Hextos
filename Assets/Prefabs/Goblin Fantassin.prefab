@@ -33,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 1359591456647302623}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.15, y: -3.75, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -182,7 +182,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75565992c2d0348808c02a5494297424, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 7926831622347251178}
+  clipAttaque: {fileID: 8300000, guid: 023e05f228787b240ab43b15a75be3d5, type: 3}
+  clipDommage: {fileID: 8300000, guid: dca96b6c5cd40ed418bf8c4cffcf9540, type: 3}
+  clipMort: {fileID: 8300000, guid: 98608b48bd5e95a40b84b1bcd913a513, type: 3}
 --- !u!95 &7926831622347251178
 Animator:
   serializedVersion: 5

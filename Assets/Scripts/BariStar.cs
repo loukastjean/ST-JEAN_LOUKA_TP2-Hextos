@@ -123,7 +123,8 @@ public class BariStar : MonoBehaviour
             {
                 // Si la difference entre la distance entre notre unite et la previously closest unite est plus grande que celle avec la nouvelle unite
                 if (Vector3.Distance(unite.transform.position, enemy.transform.position) < 
-                    Vector3.Distance(unite.transform.position, closestEnemy.transform.position))
+                    Vector3.Distance(unite.transform.position, closestEnemy.transform.position) &&
+                    enemy.pointsVie > 0)
                     closestEnemy = enemy;
             }
             else

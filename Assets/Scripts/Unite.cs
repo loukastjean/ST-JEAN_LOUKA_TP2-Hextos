@@ -39,9 +39,14 @@ public class Unite : MonoBehaviour
     // Equipe de l'unité
     public Equipe equipe { get; private set; }
 
-    public Animator animator;
+    protected Animator animator;
     
     AudioSource audioSource;
+
+    public AudioClip clipAttaque;
+    public AudioClip clipDommage;
+    public AudioClip clipMort;
+    
 
     void Start()
     {
@@ -59,12 +64,12 @@ public class Unite : MonoBehaviour
 
     void Update()
     {
-        if (pointsVie <= 0)
+        if (pointsVie <= 0.1f)
         {
             return;
         }
         
-        if (agent.velocity.x < 0)
+        if (agent.velocity.x < 0.1f)
         {
             spriteRenderer.flipX = true;
         }
@@ -104,7 +109,7 @@ public class Unite : MonoBehaviour
         return Time.time >= tsDerniereAttaque + delaiAttaque;
     }
 
-    public virtual void Attaquer(Vector2 position)
+    public void Attaquer(Vector2 position)
     {
         // Vérifier si le délaiAttaque le permet
         if (!AttaqueEstPrete())
@@ -119,6 +124,7 @@ public class Unite : MonoBehaviour
         }
         
         animator.SetTrigger("attack");
+        audioSource.PlayOneShot(clipAttaque);
         
         // Effectuer l'attaque (avec des dégats aléatoires)
         InfligerDegats(position, Random.Range(force.x, force.y));
@@ -165,12 +171,17 @@ public class Unite : MonoBehaviour
             
             animator.SetTrigger("die");
             
-            //audioSource.PlayOneShot(Resources.Load<AudioClip>("Sounds/mort"));
+            //audioSource.PlayOneShot(clipMort);
 
             Destroy(agent);
             
             // Disparition
             Destroy(gameObject, 0.9f);
         }
+        else
+        {
+            audioSource.PlayOneShot(clipDommage);
+        }
+        
     }
 }
