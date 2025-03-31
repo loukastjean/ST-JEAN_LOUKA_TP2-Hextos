@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Dynamite : MonoBehaviour
 {
-    double gravite = -2f;
+    double gravite = -4f;
     double creationTs;
     double tempsFinal;
 

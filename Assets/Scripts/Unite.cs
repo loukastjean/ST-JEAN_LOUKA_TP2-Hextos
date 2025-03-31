@@ -124,7 +124,7 @@ public class Unite : MonoBehaviour
         }
         
         animator.SetTrigger("attack");
-        audioSource.PlayOneShot(clipAttaque);
+        //audioSource.PlayOneShot(clipAttaque);
         
         // Effectuer l'attaque (avec des dégats aléatoires)
         InfligerDegats(position, Random.Range(force.x, force.y));
@@ -180,8 +180,23 @@ public class Unite : MonoBehaviour
         }
         else
         {
-            audioSource.PlayOneShot(clipDommage);
+            //audioSource.PlayOneShot(clipDommage);
         }
         
+    }
+    
+    // Indique si l'unité à atteint sa destination
+    public bool AtteintDestination()
+    {
+        // Vérifier qu'il n'y a pas un chemin en cours de calcul
+        if (!agent.pathPending)
+        {
+            if (agent.remainingDistance <= agent.stoppingDistance)
+            {
+                animator.SetBool("isWalking", false);
+                return true;
+            }
+        }
+        return false;
     }
 }

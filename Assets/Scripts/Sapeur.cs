@@ -16,7 +16,7 @@ public class Sapeur : Unite
         vitesseDeplacement = 1f;
         delaiAttaque = 5f;
         distanceAttaque = 10f;
-        force = new Vector2(1f, 2f);
+        force = new Vector2(15f, 20f);
         rayonAttaque = 3f;
     }
     
@@ -28,7 +28,7 @@ public class Sapeur : Unite
             Quaternion.identity
         ).GetComponent<Dynamite>();
         
-        dynamite.degats = 1f;
+        dynamite.degats = degats;
         dynamite.destination = position;
         dynamite.rayonAttaque = rayonAttaque;
     }

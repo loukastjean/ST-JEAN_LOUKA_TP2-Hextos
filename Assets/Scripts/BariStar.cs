@@ -86,7 +86,7 @@ public class BariStar : MonoBehaviour
 
 
         // Arrivé à destination, on retourne en attente
-        if (UniteAtteintDestination())
+        if (unite.AtteintDestination())
         {
             etatActuel = Etats.attente;
             return;
@@ -195,18 +195,6 @@ public class BariStar : MonoBehaviour
         }
         
         return closestTower;
-    }
-    
-    // Indique si l'unité à atteint sa destination
-    bool UniteAtteintDestination()
-    {
-        // Vérifier qu'il n'y a pas un chemin en cours de calcul
-        if (!unite.agent.pathPending)
-        {
-            return unite.agent.remainingDistance <= unite.agent.stoppingDistance;
-        }
-
-        return false;
     }
     
     // Tente de rester a l'exterieur du rayon d'attaque de l'ennemi jusqu'a ce qu'il puisse attaquer de nouveau
