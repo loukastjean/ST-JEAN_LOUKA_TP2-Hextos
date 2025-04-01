@@ -21,6 +21,15 @@ public class UIManager : MonoBehaviour
     public TMP_Text teamGoblinsNbUnites;
 
     public TMP_Text timer;
+
+    public TMP_Text viesRestantesHumains;
+    public TMP_Text viesRestantesGoblins;
+
+    public TMP_Text gagnantPerdantHumains;
+    public TMP_Text gagnantPerdantGoblins;
+
+    public GameObject inGameUI;
+    public GameObject gameOverUI;
     
     // Start is called before the first frame update
     void Start()
@@ -35,6 +44,7 @@ public class UIManager : MonoBehaviour
         UpdateNbVies();
         UpdateNbUnites();
         UpdateTimer();
+        AfficherGameOver();
     }
 
     void UpdateNbVies()
@@ -77,4 +87,50 @@ public class UIManager : MonoBehaviour
         
         timer.text = $"{minutes:D2}:{seconds:D2}";
     }
+
+    void AfficherGameOver()
+    {
+        if (teamGoblins.nbViesRestantes <= 0 || teamHumains.nbViesRestantes <= 0)
+        {
+            inGameUI.SetActive(false);
+            gameOverUI.SetActive(true);
+            
+            viesRestantesHumains.text = $"Vies restantes: {teamGoblins.nbViesRestantes}";
+            viesRestantesGoblins.text = $"Vies restantes: {teamGoblins.nbViesRestantes}";
+
+            if (teamHumains.nbViesRestantes <= 0)
+            {
+                gagnantPerdantHumains.text = "Gagnant!";
+                gagnantPerdantGoblins.text = "Perdant!";
+            }
+
+            if (teamGoblins.nbViesRestantes <= 0)
+            {
+                gagnantPerdantHumains.text = "Perdant!";
+                gagnantPerdantGoblins.text = "Gagnant!";
+            }
+            
+            Time.timeScale = 0;
+        }
+        
+        
+        if (teamHumains.nbViesRestantes <= 0)
+        {
+            viesRestantesGoblins.text = "Vies restantes: 0";
+            gagnantPerdantGoblins.text = "Perdant";
+            
+            viesRestantesGoblins.text = $"Vies restantes: {teamGoblins.nbViesRestantes}";
+            gagnantPerdantGoblins.text = "Gagnant";
+        }
+
+        if (teamGoblins.nbViesRestantes <= 0)
+        {
+            viesRestantesHumains.text = $"Vies restantes: {teamGoblins.nbViesRestantes}";
+            gagnantPerdantHumains.text = "Gagnant";
+            
+            viesRestantesGoblins.text = "Vies restantes: 0";
+            gagnantPerdantGoblins.text = "Perdant";
+        }
+    }
+    
 }

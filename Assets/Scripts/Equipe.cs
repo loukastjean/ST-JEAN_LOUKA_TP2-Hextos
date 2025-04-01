@@ -89,9 +89,5 @@ public class Equipe : MonoBehaviour
         
         // Réduire le nombre de vies restante
         nbViesRestantes--;
-        
-        // TODO: S'il n'y a plus de vies, fin de la partie
-        if (nbViesRestantes <= 0)
-            Debug.Log($"Équipe {gameObject.name} n'a plus de vies");
     }
 }

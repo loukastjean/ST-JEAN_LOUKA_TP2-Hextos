@@ -74,7 +74,7 @@ public class Dynamite : MonoBehaviour
     {
         float tempsDepuisCreation = (float)(Time.time - creationTs);
         
-        double hauteur = positionDepart.y + (gravite / 2 * Mathf.Pow(tempsDepuisCreation, 2) - gravite / 2 * tempsFinal * tempsDepuisCreation);
+        double hauteur = (gravite / 2 * Mathf.Pow(tempsDepuisCreation, 2) - gravite / 2 * tempsFinal * tempsDepuisCreation);
         
         Vector2 positionHorizontale = positionDepart + (vitesseDeplacement * tempsDepuisCreation * deplacementUnitaire);
         
