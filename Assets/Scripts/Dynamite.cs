@@ -80,9 +80,6 @@ public class Dynamite : MonoBehaviour
         
         Vector2 positionSurParabole = new Vector2(positionHorizontale.x, (float)(positionHorizontale.y + k * hauteur));
         
-        //TEST
-        //transform.position += new Vector3(0, vitesseDeplacement);
-        
         transform.position = positionSurParabole;
     }
     

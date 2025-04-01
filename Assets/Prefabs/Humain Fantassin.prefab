@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clipAttaque: {fileID: 8300000, guid: 023e05f228787b240ab43b15a75be3d5, type: 3}
-  clipDommage: {fileID: 8300000, guid: dca96b6c5cd40ed418bf8c4cffcf9540, type: 3}
+  clipDommage: {fileID: 8300000, guid: 02b49d557adab8e4c89da6e4252c8d89, type: 3}
   clipMort: {fileID: 8300000, guid: 98608b48bd5e95a40b84b1bcd913a513, type: 3}
 --- !u!114 &5074035095718021539
 MonoBehaviour:

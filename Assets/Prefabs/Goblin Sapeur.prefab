@@ -232,3 +232,4 @@ MonoBehaviour:
   clipDommage: {fileID: 8300000, guid: 02b49d557adab8e4c89da6e4252c8d89, type: 3}
   clipMort: {fileID: 8300000, guid: 98608b48bd5e95a40b84b1bcd913a513, type: 3}
   prefabDynamite: {fileID: 8287576577676995057, guid: d40b20f6ed1794358bd524c276af1846, type: 3}
+  sapeurDommage: {fileID: 8300000, guid: 02b49d557adab8e4c89da6e4252c8d89, type: 3}
