@@ -8,6 +8,7 @@ public class BariStar : MonoBehaviour
     // Liste des états du state machine
     enum Etats
     {
+        eloignement,
         attente,
         marche,
         combat
@@ -32,6 +33,9 @@ public class BariStar : MonoBehaviour
         
         switch (etatActuel)
         {
+            case Etats.eloignement:
+                Update_EtatEloignement();
+                break;
             case Etats.attente:
                 Update_EtatAttente();
                 break;
@@ -44,9 +48,59 @@ public class BariStar : MonoBehaviour
         }
     }
 
+
+    void Update_EtatEloignement()
+    {
+        Dynamite[] dynamites = RecupererDynamitesProche();
+
+        if (dynamites.Length == 0)
+        {
+            return;
+        }
+
+        // Dynamite la plus urgente
+        Dynamite dynamiteUrgente = null;
+
+        foreach (var dynamite in dynamites)
+        {
+            if (!dynamiteUrgente)
+            {
+                dynamiteUrgente = dynamite;
+                continue;
+            }
+            
+            // Si la nouvelle dynamite a comme destination plus proche de l'unite
+            if (dynamite.tempsFinal < dynamiteUrgente.tempsFinal)
+            {
+                dynamiteUrgente = dynamite;
+            }
+            
+        }
+
+        Vector2 deplacementUnitaireDynamiteUnite = new Vector2(transform.position.x - dynamiteUrgente.destination.x, transform.position.y - dynamiteUrgente.destination.y).normalized;
+        
+        // Destination qui est l'endroit le 
+        Vector2 nouvelleDestination = dynamiteUrgente.destination + deplacementUnitaireDynamiteUnite * 5;
+
+        unite.SetDestination(nouvelleDestination);
+
+        if (unite.AtteintDestination())
+        {
+            etatActuel = Etats.attente;
+        }
+        
+        Debug.Log("Je m'eloigne d'une dynamite!");
+    }
+    
         
     void Update_EtatAttente()
     {
+
+        if (DynamitesProche())
+        {
+            etatActuel = Etats.eloignement;
+        }
+        
         // Trouver une tour n'appartenant pas à mon équipe > S'y diriger
         TourRavitaillement tour = RecupererTourEnnemiePlusProche();
         
@@ -70,6 +124,11 @@ public class BariStar : MonoBehaviour
 
     void Update_EtatMarche()
     {
+        if (DynamitesProche())
+        {
+            etatActuel = Etats.eloignement;
+        }
+        
         Unite closestEnemy = RecupererEnnemiPlusProche();
         TourRavitaillement closestEnemyTower = RecupererTourEnnemiePlusProche();
         
@@ -95,6 +154,12 @@ public class BariStar : MonoBehaviour
 
     void Update_EtatCombat()
     {
+        
+        if (DynamitesProche())
+        {
+            etatActuel = Etats.eloignement;
+        }
+        
         // Tant que ma cible est en vie
         if (nemesis != null)
         {
@@ -196,6 +261,42 @@ public class BariStar : MonoBehaviour
         
         return closestTower;
     }
+
+
+    bool DynamitesProche()
+    {
+        Dynamite[] dynamites = RecupererDynamitesProche();
+
+        if (dynamites.Length == 0)
+        {
+            return false;
+        }
+
+        return true;
+    }
+    
+    
+    // Recupere les dynamites qui ont comme destination un point proche de l'unite
+    Dynamite[] RecupererDynamitesProche()
+    {
+        Dynamite[] dynamites = FindObjectsOfType<Dynamite>();
+        
+        List<Dynamite> dynamitesProches = new List<Dynamite>();
+
+        foreach (var dynamite in dynamites)
+        {
+            if (Vector2.Distance(transform.position, dynamite.destination) < 3f)
+            {
+                dynamitesProches.Add(dynamite);
+            }
+        }
+        
+        return dynamitesProches.ToArray();
+    }
+    
+    
+    
+    
     
     // Tente de rester a l'exterieur du rayon d'attaque de l'ennemi jusqu'a ce qu'il puisse attaquer de nouveau
     bool ResterLoinEnnemis()

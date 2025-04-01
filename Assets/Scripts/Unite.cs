@@ -99,8 +99,12 @@ public class Unite : MonoBehaviour
     // Demander à l'agent de se rendre à une destination
     public void SetDestination(Vector2 destination)
     {
-        agent.SetDestination(destination);
-        animator.SetBool("isWalking", true);
+        if (agent)
+        {
+            agent.SetDestination(destination);
+            animator.SetBool("isWalking", true);
+        }
+
     }
     
     // Indique si l'unité peut attaquer (selon le delaiAttaque)
@@ -124,7 +128,7 @@ public class Unite : MonoBehaviour
         }
         
         animator.SetTrigger("attack");
-        //audioSource.PlayOneShot(clipAttaque);
+        audioSource.PlayOneShot(clipAttaque);
         
         // Effectuer l'attaque (avec des dégats aléatoires)
         InfligerDegats(position, Random.Range(force.x, force.y));
@@ -171,7 +175,7 @@ public class Unite : MonoBehaviour
             
             animator.SetTrigger("die");
             
-            //audioSource.PlayOneShot(clipMort);
+            audioSource.PlayOneShot(clipMort);
 
             Destroy(agent);
             
@@ -180,7 +184,7 @@ public class Unite : MonoBehaviour
         }
         else
         {
-            //audioSource.PlayOneShot(clipDommage);
+            audioSource.PlayOneShot(clipDommage);
         }
         
     }

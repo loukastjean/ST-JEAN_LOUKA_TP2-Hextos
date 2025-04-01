@@ -95,41 +95,22 @@ public class UIManager : MonoBehaviour
             inGameUI.SetActive(false);
             gameOverUI.SetActive(true);
             
-            viesRestantesHumains.text = $"Vies restantes: {teamGoblins.nbViesRestantes}";
+            viesRestantesHumains.text = $"Vies restantes: {teamHumains.nbViesRestantes}";
             viesRestantesGoblins.text = $"Vies restantes: {teamGoblins.nbViesRestantes}";
 
             if (teamHumains.nbViesRestantes <= 0)
             {
-                gagnantPerdantHumains.text = "Gagnant!";
-                gagnantPerdantGoblins.text = "Perdant!";
+                gagnantPerdantHumains.text = "Perdant!";
+                gagnantPerdantGoblins.text = "Gagnant!";
             }
 
             if (teamGoblins.nbViesRestantes <= 0)
             {
-                gagnantPerdantHumains.text = "Perdant!";
-                gagnantPerdantGoblins.text = "Gagnant!";
+                gagnantPerdantHumains.text = "Gagnant!";
+                gagnantPerdantGoblins.text = "Perdant!";
             }
             
             Time.timeScale = 0;
-        }
-        
-        
-        if (teamHumains.nbViesRestantes <= 0)
-        {
-            viesRestantesGoblins.text = "Vies restantes: 0";
-            gagnantPerdantGoblins.text = "Perdant";
-            
-            viesRestantesGoblins.text = $"Vies restantes: {teamGoblins.nbViesRestantes}";
-            gagnantPerdantGoblins.text = "Gagnant";
-        }
-
-        if (teamGoblins.nbViesRestantes <= 0)
-        {
-            viesRestantesHumains.text = $"Vies restantes: {teamGoblins.nbViesRestantes}";
-            gagnantPerdantHumains.text = "Gagnant";
-            
-            viesRestantesGoblins.text = "Vies restantes: 0";
-            gagnantPerdantGoblins.text = "Perdant";
         }
     }
     
