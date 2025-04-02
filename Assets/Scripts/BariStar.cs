@@ -55,6 +55,7 @@ public class BariStar : MonoBehaviour
 
         if (dynamites.Length == 0)
         {
+            etatActuel = Etats.attente;
             return;
         }
 
@@ -176,11 +177,45 @@ public class BariStar : MonoBehaviour
         etatActuel = Etats.attente;
     }
 
+
+    Unite RecupererEnnemiPlusEntoure()
+    {
+        Unite[] enemies = RecupererEnnemis(transform.position);
+
+        // Plus populaire, donc celle avec le plus de monde a l'entour d'elle
+        Unite unitePopulaire = null;
+        
+        // Nombre d'unites autour de l'unite populaire
+        int unitePopulaireNbUnites = 0;
+        
+        foreach (Unite enemy in enemies)
+        {
+            
+            Unite[] unitesAutour = RecupererEnnemis(enemy.transform.position, 5f);
+
+            if (!unitePopulaire)
+            {
+                unitePopulaire = enemy;
+                unitePopulaireNbUnites = unitesAutour.Length;
+            }
+            
+            if (unitesAutour.Length > unitePopulaireNbUnites)
+            {
+                unitePopulaire = enemy;
+                unitePopulaireNbUnites = unitesAutour.Length;
+            }
+        }
+        
+        return unitePopulaire;
+        
+    }
+    
+
     Unite RecupererEnnemiPlusProche()
     {
         Unite closestEnemy = null;
         
-        List<Unite> ennemies = RecupererEnnemis();
+        Unite[] ennemies = RecupererEnnemis(unite.transform.position);
         
         foreach (var enemy in ennemies)
         {
@@ -198,12 +233,12 @@ public class BariStar : MonoBehaviour
         return closestEnemy;
     }
 
-    List<Unite> RecupererEnnemis()
+    Unite[] RecupererEnnemis(Vector2 position, float radius = 1000f)
     {
         List<Unite> ennemis = new List<Unite>();
         
         // Recuperer tous les colliders a proximite
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(unite.transform.position, 1000f);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(position, radius);
             
         // Verifier s'il s'agit d'une unite
         foreach (var collider in colliders)
@@ -218,7 +253,7 @@ public class BariStar : MonoBehaviour
                 }
             }
         }
-        return ennemis;
+        return ennemis.ToArray();
     }
 
     TourRavitaillement[] RecupererToursEnnemies()
