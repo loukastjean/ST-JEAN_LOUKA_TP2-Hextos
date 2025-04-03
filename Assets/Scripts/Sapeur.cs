@@ -13,7 +13,7 @@ public class Sapeur : Unite
     {
         pointsVieMax = 60f;
         pointsVie = pointsVieMax;
-        vitesseDeplacement = 1f;
+        vitesseDeplacement = 2f;
         delaiAttaque = 5f;
         distanceAttaque = 10f;
         force = new Vector2(15f, 20f);

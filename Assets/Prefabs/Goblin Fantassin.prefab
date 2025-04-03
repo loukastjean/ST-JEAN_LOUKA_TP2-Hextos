@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 2939315620038268615}
   - component: {fileID: 4170002428279630011}
   - component: {fileID: 7926831622347251178}
-  - component: {fileID: 7142474507177198705}
   - component: {fileID: 5267304551959734596}
   - component: {fileID: 6869569376569982440}
+  - component: {fileID: 6025248191423214208}
   m_Layer: 0
   m_Name: Goblin Fantassin
   m_TagString: Untagged
@@ -207,19 +207,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7142474507177198705
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1359591456647302623}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3017acd4443ff407eb7d05faab319fc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  etat: 0
 --- !u!114 &5267304551959734596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,3 +315,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6025248191423214208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359591456647302623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3017acd4443ff407eb7d05faab319fc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugCouleur: 0
+  etat: 0

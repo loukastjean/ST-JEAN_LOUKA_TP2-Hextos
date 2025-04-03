@@ -13,11 +13,11 @@ GameObject:
   - component: {fileID: 7752039633391988344}
   - component: {fileID: 3374116355238404860}
   - component: {fileID: 2939315620038268615}
-  - component: {fileID: 5074035095718021539}
   - component: {fileID: 6340887955837527124}
   - component: {fileID: -34875824852452106}
   - component: {fileID: 1729787386894102110}
   - component: {fileID: 8691487680416158330}
+  - component: {fileID: 7068389454416654585}
   m_Layer: 0
   m_Name: Humain Sapeur
   m_TagString: Untagged
@@ -171,19 +171,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5347638, y: 0.83134556}
   m_EdgeRadius: 0
---- !u!114 &5074035095718021539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1359591456647302623}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 017d1613113914befabbdcc6161d820d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  etatActuel: 0
 --- !u!95 &6340887955837527124
 Animator:
   serializedVersion: 5
@@ -329,3 +316,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7068389454416654585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359591456647302623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 017d1613113914befabbdcc6161d820d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  etatActuel: 0

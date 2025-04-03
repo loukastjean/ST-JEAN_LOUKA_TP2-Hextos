@@ -60,6 +60,8 @@ public class Unite : MonoBehaviour
         tsCreation = Time.time;
         
         audioSource = GetComponent<AudioSource>();
+        
+        agent.speed = vitesseDeplacement;
     }
 
     void Update()
@@ -83,7 +85,7 @@ public class Unite : MonoBehaviour
     {
         pointsVieMax = 100f;
         pointsVie = pointsVieMax;
-        vitesseDeplacement = 1.5f;
+        vitesseDeplacement = 3f;
         delaiAttaque = 1.5f;
         distanceAttaque = 1.5f;
         force = new Vector2(15f, 20f);

@@ -14,10 +14,10 @@ GameObject:
   - component: {fileID: 3374116355238404860}
   - component: {fileID: 2939315620038268615}
   - component: {fileID: 4170002428279630011}
-  - component: {fileID: 5074035095718021539}
   - component: {fileID: 8118265637513198390}
   - component: {fileID: -6442672991734885835}
   - component: {fileID: 873950413456758560}
+  - component: {fileID: 5547820182026121469}
   m_Layer: 0
   m_Name: Humain Fantassin
   m_TagString: Untagged
@@ -186,19 +186,6 @@ MonoBehaviour:
   clipAttaque: {fileID: 8300000, guid: 023e05f228787b240ab43b15a75be3d5, type: 3}
   clipDommage: {fileID: 8300000, guid: 02b49d557adab8e4c89da6e4252c8d89, type: 3}
   clipMort: {fileID: 8300000, guid: 98608b48bd5e95a40b84b1bcd913a513, type: 3}
---- !u!114 &5074035095718021539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1359591456647302623}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 017d1613113914befabbdcc6161d820d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  etatActuel: 0
 --- !u!95 &8118265637513198390
 Animator:
   serializedVersion: 5
@@ -328,3 +315,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5547820182026121469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359591456647302623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 017d1613113914befabbdcc6161d820d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  etatActuel: 0

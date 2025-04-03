@@ -180,27 +180,23 @@ public class BariStar : MonoBehaviour
         // Tant que ma cible est en vie
         if (nemesis)
         {
-            // Se déplacer vers elle
-
             if (UniteEstSapeur(unite))
             {
+                // Se déplacer vers elle
                 Vector2 position = Utilites.getPositionSurDroite(nemesis.transform.position, unite.transform.position, unite.distanceAttaque - unite.agent.stoppingDistance);
                 unite.SetDestination(position);
                 
                 unite.Attaquer(nemesis.transform.position);
                 
                 //if (SapeurDevraitLancerDynamiteADestination(nemesis.transform.position))
-                //{
                 //    unite.Attaquer(nemesis.transform.position);
-                //}
                 //else
-                //{
-                //    Debug.Log("Il ne devrait pas attaquer car vaut pas la peine");
-                //}
+                //    etatActuel = Etats.marche;
                 
             }
             else // Tenter de l'attaquer si fantassin
             {
+                // Se déplacer vers elle
                 unite.SetDestination(nemesis.transform.position);
                 unite.Attaquer(nemesis.transform.position);
             }
@@ -228,7 +224,7 @@ public class BariStar : MonoBehaviour
 
         if (nbHumainsAutour > 0 || nbGoblinsAutour > 0)
         {
-            if (nbGoblinsAutour == 0 || nbHumainsAutour >= nbGoblinsAutour)
+            if (nbGoblinsAutour == 0 || nbHumainsAutour > nbGoblinsAutour)
                 return false;
             
             return true;
