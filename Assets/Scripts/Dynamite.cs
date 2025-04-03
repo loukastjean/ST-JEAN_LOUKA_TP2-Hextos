@@ -54,7 +54,7 @@ public class Dynamite : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Vector2.Distance(transform.position, destination) <= 1.5f && !exploded)
+        if (Vector2.Distance(transform.position, destination) <= 0.5f && !exploded)
         {
             Explosion();
             exploded = true;

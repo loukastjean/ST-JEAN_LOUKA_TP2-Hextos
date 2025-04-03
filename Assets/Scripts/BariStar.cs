@@ -19,6 +19,9 @@ public class BariStar : MonoBehaviour
     
     // Cible ennemi que l'unité pourchasse
     Unite nemesis;
+
+    private float distanceAttaqueSapeurs = 10f;
+    private float rayonAttaqueSapeurs = 3f;
     
     void Start()
     {
@@ -81,7 +84,7 @@ public class BariStar : MonoBehaviour
         Vector2 deplacementUnitaireDynamiteUnite = new Vector2(transform.position.x - dynamiteUrgente.destination.x, transform.position.y - dynamiteUrgente.destination.y).normalized;
         
         // Destination qui est l'endroit le 
-        Vector2 nouvelleDestination = dynamiteUrgente.destination + deplacementUnitaireDynamiteUnite * 5;
+        Vector2 nouvelleDestination = dynamiteUrgente.destination + deplacementUnitaireDynamiteUnite * (rayonAttaqueSapeurs + 2);
 
         unite.SetDestination(nouvelleDestination);
 
@@ -89,8 +92,6 @@ public class BariStar : MonoBehaviour
         {
             etatActuel = Etats.attente;
         }
-        
-        Debug.Log("Je m'eloigne d'une dynamite!");
     }
     
         
@@ -100,6 +101,19 @@ public class BariStar : MonoBehaviour
         if (DynamitesProche())
         {
             etatActuel = Etats.eloignement;
+        }
+        
+        nemesis = RecupererEnnemiPlusProche();
+
+        if (unite.GetType() == typeof(Sapeur))
+        {
+            nemesis = RecupererEnnemiProchePlusEntoure();
+        }
+        
+        if (nemesis)
+        {
+            // Transition vers combat
+            etatActuel = Etats.combat;
         }
         
         // Trouver une tour n'appartenant pas à mon équipe > S'y diriger
@@ -130,19 +144,21 @@ public class BariStar : MonoBehaviour
             etatActuel = Etats.eloignement;
         }
         
-        Unite closestEnemy = RecupererEnnemiPlusProche();
-        TourRavitaillement closestEnemyTower = RecupererTourEnnemiePlusProche();
-        
-        if (
-            Vector2.Distance(transform.position, closestEnemy.transform.position) < 
-            Vector2.Distance(transform.position, closestEnemyTower.transform.position))
-        {
-            // Assigner une cible
-            nemesis = closestEnemy;
+        nemesis = RecupererEnnemiPlusProche();
 
+        if (UniteEstSapeur(unite))
+        {
+            nemesis = RecupererEnnemiProchePlusEntoure();
+        }
+        
+        TourRavitaillement closestEnemyTower = RecupererTourEnnemiePlusProche();
+
+        if (nemesis)
+        {
             // Transition vers combat
             etatActuel = Etats.combat;
         }
+
 
 
         // Arrivé à destination, on retourne en attente
@@ -162,13 +178,33 @@ public class BariStar : MonoBehaviour
         }
         
         // Tant que ma cible est en vie
-        if (nemesis != null)
+        if (nemesis)
         {
             // Se déplacer vers elle
-            unite.SetDestination(nemesis.transform.position);
-            
-            // Tenter de l'attaquer
-            unite.Attaquer(nemesis.transform.position);
+
+            if (UniteEstSapeur(unite))
+            {
+                Vector2 position = Utilites.getPositionSurDroite(nemesis.transform.position, unite.transform.position, unite.distanceAttaque - unite.agent.stoppingDistance);
+                unite.SetDestination(position);
+                
+                unite.Attaquer(nemesis.transform.position);
+                
+                //if (SapeurDevraitLancerDynamiteADestination(nemesis.transform.position))
+                //{
+                //    unite.Attaquer(nemesis.transform.position);
+                //}
+                //else
+                //{
+                //    Debug.Log("Il ne devrait pas attaquer car vaut pas la peine");
+                //}
+                
+            }
+            else // Tenter de l'attaquer si fantassin
+            {
+                unite.SetDestination(nemesis.transform.position);
+                unite.Attaquer(nemesis.transform.position);
+            }
+
 
             return;
         }
@@ -177,10 +213,34 @@ public class BariStar : MonoBehaviour
         etatActuel = Etats.attente;
     }
 
-
-    Unite RecupererEnnemiPlusEntoure()
+    bool UniteEstSapeur(Unite _unite)
     {
-        Unite[] enemies = RecupererEnnemis(transform.position);
+        if (_unite.GetType() == typeof(Sapeur))
+            return true;
+        return false;
+    }
+
+
+    bool SapeurDevraitLancerDynamiteADestination(Vector2 position)
+    {
+        int nbHumainsAutour = RecupererEnnemis(position, 5f).Length;
+        int nbGoblinsAutour = RecupererAlies(position, 5f).Length;
+
+        if (nbHumainsAutour > 0 || nbGoblinsAutour > 0)
+        {
+            if (nbGoblinsAutour == 0 || nbHumainsAutour >= nbGoblinsAutour)
+                return false;
+            
+            return true;
+        }
+
+        return false;
+    }
+
+
+    Unite RecupererEnnemiProchePlusEntoure()
+    {
+        Unite[] enemies = RecupererEnnemis(transform.position, distanceAttaqueSapeurs);
 
         // Plus populaire, donc celle avec le plus de monde a l'entour d'elle
         Unite unitePopulaire = null;
@@ -191,7 +251,7 @@ public class BariStar : MonoBehaviour
         foreach (Unite enemy in enemies)
         {
             
-            Unite[] unitesAutour = RecupererEnnemis(enemy.transform.position, 5f);
+            Unite[] unitesAutour = RecupererEnnemis(enemy.transform.position, rayonAttaqueSapeurs + 2);
 
             if (!unitePopulaire)
             {
@@ -254,6 +314,29 @@ public class BariStar : MonoBehaviour
             }
         }
         return ennemis.ToArray();
+    }
+    
+    Unite[] RecupererAlies(Vector2 position, float radius = 1000f)
+    {
+        List<Unite> alies = new List<Unite>();
+        
+        // Recuperer tous les colliders a proximite
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(position, radius);
+            
+        // Verifier s'il s'agit d'une unite
+        foreach (var collider in colliders)
+        {
+            // S'il  s'agit d'une unite, attaquer
+            if (collider.TryGetComponent(out Unite _unite))
+            {
+                // Si c'est pas un allie
+                if (unite.equipe == _unite.equipe)
+                {
+                    alies.Add(_unite);
+                }
+            }
+        }
+        return alies.ToArray();
     }
 
     TourRavitaillement[] RecupererToursEnnemies()
@@ -320,7 +403,7 @@ public class BariStar : MonoBehaviour
 
         foreach (var dynamite in dynamites)
         {
-            if (Vector2.Distance(transform.position, dynamite.destination) < 3f)
+            if (Vector2.Distance(transform.position, dynamite.destination) < rayonAttaqueSapeurs)
             {
                 dynamitesProches.Add(dynamite);
             }
