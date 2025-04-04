@@ -40,7 +40,7 @@ public class BariStar : MonoBehaviour
         if (nemesis)
         {
             if (UniteEstSapeur(nemesis))
-                unite.Attaquer(nemesis.transform.position + unite.agent.velocity);
+                unite.Attaquer(nemesis.transform.position + nemesis.agent.velocity);
             unite.Attaquer(nemesis.transform.position);
         }
             
@@ -95,7 +95,7 @@ public class BariStar : MonoBehaviour
         Vector2 deplacementUnitaireDynamiteUnite = new Vector2(transform.position.x - dynamiteUrgente.destination.x, transform.position.y - dynamiteUrgente.destination.y).normalized;
         
         // Destination qui est l'endroit le 
-        Vector2 nouvelleDestination = dynamiteUrgente.destination + deplacementUnitaireDynamiteUnite * (rayonAttaqueSapeurs + 2);
+        Vector2 nouvelleDestination = dynamiteUrgente.destination + deplacementUnitaireDynamiteUnite * rayonAttaqueSapeurs * rayonAttaqueSapeurs;
 
         unite.SetDestination(nouvelleDestination);
 
@@ -188,7 +188,7 @@ public class BariStar : MonoBehaviour
                 
                 unite.SetDestination(position);
                 
-                unite.Attaquer(nemesis.transform.position + unite.agent.velocity);
+                unite.Attaquer(nemesis.transform.position + nemesis.agent.velocity);
                 
             }
             else // Tenter de l'attaquer si fantassin
