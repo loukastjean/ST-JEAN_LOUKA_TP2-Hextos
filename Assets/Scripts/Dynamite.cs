@@ -15,7 +15,7 @@ public class Dynamite : MonoBehaviour
     Vector2 deplacementUnitaire;
 
     // La variable qui permet de donner un aspect 3d a la dynamite
-    private double k = 3f;
+    double k = 3f;
     
     Animator animator;
     
@@ -83,7 +83,7 @@ public class Dynamite : MonoBehaviour
         transform.position = positionSurParabole;
     }
     
-    private void InfligerDegats()
+    void InfligerDegats()
     {
         // Récupérer les colliders à proximité de position
         Collider2D[] colliders = Physics2D.OverlapCircleAll(destination, rayonAttaque);

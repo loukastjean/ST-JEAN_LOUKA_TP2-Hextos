@@ -9,8 +9,8 @@ public class TourRavitaillement : MonoBehaviour
     GameObject anneau;
     SpriteRenderer anneauSpriteRenderer;
 
-    public Equipe teamHumains;
-    public Equipe teamGoblins;
+    public Equipe equipeHumains;
+    public Equipe equipeGoblins;
     
     void Start()
     {
@@ -21,17 +21,17 @@ public class TourRavitaillement : MonoBehaviour
     void Update()
     {
         VerifierPossession();
-        ChangerCouleurAnneau(proprietaire);
+        ChangerCouleurAnneau();
     }
 
-    void ChangerCouleurAnneau(Equipe equipe)
+    void ChangerCouleurAnneau()
     {
-        if (equipe == teamGoblins)
+        if (proprietaire == equipeGoblins)
         {
             anneauSpriteRenderer.color = Color.red;
         }
 
-        if (equipe == teamHumains)
+        if (proprietaire == equipeHumains)
         {
             anneauSpriteRenderer.color = Color.blue;
         }
@@ -41,7 +41,7 @@ public class TourRavitaillement : MonoBehaviour
     {
         int nbUnitesHumainsProche = 0;
 
-        foreach (var unite in teamHumains.unites)
+        foreach (var unite in equipeHumains.unites)
         {
             if (Vector2.Distance(unite.transform.position, transform.position) < 2.25f)
             {
@@ -51,7 +51,7 @@ public class TourRavitaillement : MonoBehaviour
         
         int nbUnitesGoblinsProche = 0;
         
-        foreach (var unite in teamGoblins.unites)
+        foreach (var unite in equipeGoblins.unites)
         {
             if (Vector2.Distance(unite.transform.position, transform.position) < 2.25f)
             {
@@ -60,17 +60,17 @@ public class TourRavitaillement : MonoBehaviour
         }
 
         // Juste pour pas call the SpriteRenderer a chaque frame
-        if (nbUnitesHumainsProche > nbUnitesGoblinsProche && proprietaire != teamHumains)
+        if (nbUnitesHumainsProche > nbUnitesGoblinsProche && proprietaire != equipeHumains)
         {
-            proprietaire = teamHumains;
+            proprietaire = equipeHumains;
         }
         
-        else if (nbUnitesGoblinsProche > nbUnitesHumainsProche && proprietaire != teamGoblins)
+        else if (nbUnitesGoblinsProche > nbUnitesHumainsProche && proprietaire != equipeGoblins)
         {
-            proprietaire = teamGoblins;
+            proprietaire = equipeGoblins;
         }
         
-        ChangerCouleurAnneau(proprietaire);
+        ChangerCouleurAnneau();
         
     }
 }

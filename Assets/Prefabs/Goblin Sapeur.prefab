@@ -216,9 +216,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0c3d167d0d42608f320b42e3220346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clipAttaque: {fileID: 8300000, guid: 023e05f228787b240ab43b15a75be3d5, type: 3}
-  clipDommage: {fileID: 8300000, guid: 02b49d557adab8e4c89da6e4252c8d89, type: 3}
-  clipMort: {fileID: 8300000, guid: 98608b48bd5e95a40b84b1bcd913a513, type: 3}
+  audioClipAttaque: {fileID: 8300000, guid: 023e05f228787b240ab43b15a75be3d5, type: 3}
+  audioClipDommage: {fileID: 8300000, guid: 02b49d557adab8e4c89da6e4252c8d89, type: 3}
+  audioClipMort: {fileID: 8300000, guid: 98608b48bd5e95a40b84b1bcd913a513, type: 3}
   prefabDynamite: {fileID: 8287576577676995057, guid: d40b20f6ed1794358bd524c276af1846, type: 3}
 --- !u!82 &491820845105168002
 AudioSource:
@@ -235,7 +235,7 @@ AudioSource:
   m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
-  Mute: 1
+  Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128

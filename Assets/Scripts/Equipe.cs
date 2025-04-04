@@ -8,19 +8,23 @@ public class Equipe : MonoBehaviour
     public GameObject prefabFantassin;
     public GameObject prefabSapeur;
 
-    public List<Unite> unites { get; private set; } = new List<Unite>();
+    public List<Unite> unites { get; private set; }
     public TourRavitaillement[] tours { get; private set; }
 
     const int NB_UNITES_PAR_RAVITAILLEMENT = 5;
     const int NB_UNITES_MAX = 15;
     
     // Total des vies restantes à l'équipe
-    public int nbViesRestantes { get; private set; } = 100;
+    public int nbViesRestantes { get; private set; }
     
     Animator animator;
     
     void Start()
     {
+        unites = new List<Unite>();
+
+        nbViesRestantes = 100;
+        
         // Assigner la liste des tours de ravitaillement
         tours = FindObjectsOfType<TourRavitaillement>();
         
@@ -52,8 +56,6 @@ public class Equipe : MonoBehaviour
             Unite newUnite;
             
             if (i % 2 == 0)
-            //if (1 == 2)
-            //if (1 == 1)
             {
                 // Instancier un fantassin
                 newUnite = Instantiate(

@@ -185,11 +185,6 @@ public class BariStar : MonoBehaviour
                 
                 unite.Attaquer(nemesis.transform.position);
                 
-                //if (SapeurDevraitLancerDynamiteADestination(nemesis.transform.position))
-                //    unite.Attaquer(nemesis.transform.position);
-                //else
-                //    etatActuel = Etats.marche;
-                
             }
             else // Tenter de l'attaquer si fantassin
             {
@@ -220,24 +215,6 @@ public class BariStar : MonoBehaviour
             return true;
         return false;
     }
-
-
-    bool SapeurDevraitLancerDynamiteADestination(Vector2 position)
-    {
-        int nbHumainsAutour = RecupererEnnemis(position, 5f).Length;
-        int nbGoblinsAutour = RecupererAlies(position, 5f).Length;
-
-        if (nbHumainsAutour > 0 || nbGoblinsAutour > 0)
-        {
-            if (nbGoblinsAutour == 0 || nbHumainsAutour > nbGoblinsAutour)
-                return false;
-            
-            return true;
-        }
-
-        return false;
-    }
-
 
     Unite RecupererEnnemiProchePlusEntoure()
     {
@@ -412,17 +389,6 @@ public class BariStar : MonoBehaviour
         
         return dynamitesProches.ToArray();
     }
-    
-    
-    
-    
-    
-    // Tente de rester a l'exterieur du rayon d'attaque de l'ennemi jusqu'a ce qu'il puisse attaquer de nouveau
-    bool ResterLoinEnnemis()
-    {
-        return true;
-    }
-    
 }
 
 

@@ -43,9 +43,9 @@ public class Unite : MonoBehaviour
     
     AudioSource audioSource;
 
-    public AudioClip clipAttaque;
-    public AudioClip clipDommage;
-    public AudioClip clipMort;
+    public AudioClip audioClipAttaque;
+    public AudioClip audioClipDommage;
+    public AudioClip audioClipMort;
     
 
     void Start()
@@ -130,7 +130,7 @@ public class Unite : MonoBehaviour
         }
         
         animator.SetTrigger("attack");
-        audioSource.PlayOneShot(clipAttaque);
+        audioSource.PlayOneShot(audioClipAttaque);
         
         // Effectuer l'attaque (avec des dégats aléatoires)
         InfligerDegats(position, Random.Range(force.x, force.y));
@@ -177,7 +177,7 @@ public class Unite : MonoBehaviour
             
             animator.SetTrigger("die");
             
-            audioSource.PlayOneShot(clipMort);
+            audioSource.PlayOneShot(audioClipMort);
 
             Destroy(agent);
             
@@ -186,7 +186,7 @@ public class Unite : MonoBehaviour
         }
         else
         {
-            audioSource.PlayOneShot(clipDommage);
+            audioSource.PlayOneShot(audioClipDommage);
         }
         
     }
