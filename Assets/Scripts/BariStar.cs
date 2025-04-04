@@ -21,8 +21,8 @@ public class BariStar : MonoBehaviour
     // Cible ennemi que l'unité pourchasse
     Unite nemesis;
 
-    private float distanceAttaqueSapeurs = 7.5f;
-    private float rayonAttaqueSapeurs = 2f;
+    float distanceAttaqueSapeurs = 7.5f;
+    float rayonAttaqueSapeurs = 2f;
     
     void Start()
     {
@@ -297,29 +297,6 @@ public class BariStar : MonoBehaviour
             }
         }
         return ennemis.ToArray();
-    }
-    
-    Unite[] RecupererAlies(Vector2 position, float radius = 1000f)
-    {
-        List<Unite> alies = new List<Unite>();
-        
-        // Recuperer tous les colliders a proximite
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(position, radius);
-            
-        // Verifier s'il s'agit d'une unite
-        foreach (var collider in colliders)
-        {
-            // S'il  s'agit d'une unite, attaquer
-            if (collider.TryGetComponent(out Unite _unite))
-            {
-                // Si c'est pas un allie
-                if (unite.equipe == _unite.equipe && _unite.GetComponent<NavMeshAgent>() != null)
-                {
-                    alies.Add(_unite);
-                }
-            }
-        }
-        return alies.ToArray();
     }
 
     TourRavitaillement[] RecupererToursEnnemies()
