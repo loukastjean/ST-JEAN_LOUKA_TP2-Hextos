@@ -15,7 +15,7 @@ public class Dynamite : MonoBehaviour
     Vector2 deplacementUnitaire;
 
     // La variable qui permet de donner un aspect 3d a la dynamite
-    private double k = 4f;
+    private double k = 3f;
     
     Animator animator;
     

@@ -87,7 +87,7 @@ public class Unite : MonoBehaviour
         pointsVie = pointsVieMax;
         vitesseDeplacement = 3f;
         delaiAttaque = 1.5f;
-        distanceAttaque = 1.5f;
+        distanceAttaque = 2f;
         force = new Vector2(15f, 20f);
         rayonAttaque = 1.5f;
     }

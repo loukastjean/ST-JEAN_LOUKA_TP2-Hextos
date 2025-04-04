@@ -146,8 +146,6 @@ public class BariStar : MonoBehaviour
         }
 
         SetEnnemi();
-        
-        TourRavitaillement closestEnemyTower = RecupererTourEnnemiePlusProche();
 
         if (nemesis)
         {
@@ -155,7 +153,9 @@ public class BariStar : MonoBehaviour
             etatActuel = Etats.combat;
         }
 
-
+        TourRavitaillement tourEnnemiePlusProche = RecupererTourEnnemiePlusProche();
+        if (tourEnnemiePlusProche)
+            unite.SetDestination(tourEnnemiePlusProche.transform.position);
 
         // Arrivé à destination, on retourne en attente
         if (unite.AtteintDestination())
@@ -178,8 +178,9 @@ public class BariStar : MonoBehaviour
         {
             if (UniteEstSapeur(unite))
             {
-                // Se déplacer vers elle
-                Vector2 position = Utilites.getPositionSurDroite(nemesis.transform.position, unite.transform.position, unite.distanceAttaque - unite.agent.stoppingDistance);
+                // Rester loin de l'unite
+                Vector2 position = Utilites.getPositionSurDroite(transform.position, unite.equipe.transform.position, distanceAttaqueSapeurs - 2f);
+                
                 unite.SetDestination(position);
                 
                 unite.Attaquer(nemesis.transform.position);
