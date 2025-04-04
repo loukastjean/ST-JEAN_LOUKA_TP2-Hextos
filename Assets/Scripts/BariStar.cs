@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class BariStar : MonoBehaviour
 {
@@ -33,6 +34,11 @@ public class BariStar : MonoBehaviour
     {
         if (unite.pointsVie <= 0)
             return;
+
+        // Toujours essayer d'attaquer
+        SetEnnemi();
+        if (nemesis)
+            unite.Attaquer(nemesis.transform.position);
         
         switch (etatActuel)
         {
@@ -102,13 +108,8 @@ public class BariStar : MonoBehaviour
         {
             etatActuel = Etats.eloignement;
         }
-        
-        nemesis = RecupererEnnemiPlusProche();
 
-        if (unite.GetType() == typeof(Sapeur))
-        {
-            nemesis = RecupererEnnemiProchePlusEntoure();
-        }
+        SetEnnemi();
         
         if (nemesis)
         {
@@ -143,13 +144,8 @@ public class BariStar : MonoBehaviour
         {
             etatActuel = Etats.eloignement;
         }
-        
-        nemesis = RecupererEnnemiPlusProche();
 
-        if (UniteEstSapeur(unite))
-        {
-            nemesis = RecupererEnnemiProchePlusEntoure();
-        }
+        SetEnnemi();
         
         TourRavitaillement closestEnemyTower = RecupererTourEnnemiePlusProche();
 
@@ -207,6 +203,14 @@ public class BariStar : MonoBehaviour
         
         // Si la cible meurt, je trouve une nouvelle destination
         etatActuel = Etats.attente;
+    }
+
+    void SetEnnemi()
+    {
+        if (unite.GetType() == typeof(Sapeur))
+            nemesis = RecupererEnnemiProchePlusEntoure();
+        else
+            nemesis = RecupererEnnemiPlusProche();
     }
 
     bool UniteEstSapeur(Unite _unite)
@@ -303,7 +307,7 @@ public class BariStar : MonoBehaviour
             if (collider.TryGetComponent(out Unite _unite))
             {
                 // Si c'est pas un allie
-                if (unite.equipe != _unite.equipe)
+                if (unite.equipe != _unite.equipe && _unite.GetComponent<NavMeshAgent>() != null)
                 {
                     ennemis.Add(_unite);
                 }
@@ -326,7 +330,7 @@ public class BariStar : MonoBehaviour
             if (collider.TryGetComponent(out Unite _unite))
             {
                 // Si c'est pas un allie
-                if (unite.equipe == _unite.equipe)
+                if (unite.equipe == _unite.equipe && _unite.GetComponent<NavMeshAgent>() != null)
                 {
                     alies.Add(_unite);
                 }

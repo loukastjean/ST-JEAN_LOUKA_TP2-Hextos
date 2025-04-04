@@ -10,12 +10,12 @@ public class Dynamite : MonoBehaviour
     double creationTs;
     public double tempsFinal { get; private set; }
 
-    float vitesseDeplacement = 10f;
+    float vitesseDeplacement = 5f;
 
     Vector2 deplacementUnitaire;
 
     // La variable qui permet de donner un aspect 3d a la dynamite
-    private double k = 2f;
+    private double k = 4f;
     
     Animator animator;
     
