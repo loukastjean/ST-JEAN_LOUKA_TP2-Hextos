@@ -21,8 +21,8 @@ public class BariStar : MonoBehaviour
     // Cible ennemi que l'unité pourchasse
     Unite nemesis;
 
-    private float distanceAttaqueSapeurs = 10f;
-    private float rayonAttaqueSapeurs = 3f;
+    private float distanceAttaqueSapeurs = 7.5f;
+    private float rayonAttaqueSapeurs = 2f;
     
     void Start()
     {
@@ -38,7 +38,12 @@ public class BariStar : MonoBehaviour
         // Toujours essayer d'attaquer
         SetEnnemi();
         if (nemesis)
+        {
+            if (UniteEstSapeur(nemesis))
+                unite.Attaquer(nemesis.transform.position + unite.agent.velocity);
             unite.Attaquer(nemesis.transform.position);
+        }
+            
         
         switch (etatActuel)
         {
@@ -118,7 +123,7 @@ public class BariStar : MonoBehaviour
         }
         
         // Trouver une tour n'appartenant pas à mon équipe > S'y diriger
-        TourRavitaillement tour = RecupererTourEnnemiePlusProche();
+        TourRavitaillement tour = RecupererTourEnnemiePlusProche(new Vector2(0, 0));
         
         // Comparer le propriétaire de la tour à mon équipe
         if (tour.proprietaire != unite.equipe)
@@ -153,7 +158,7 @@ public class BariStar : MonoBehaviour
             etatActuel = Etats.combat;
         }
 
-        TourRavitaillement tourEnnemiePlusProche = RecupererTourEnnemiePlusProche();
+        TourRavitaillement tourEnnemiePlusProche = RecupererTourEnnemiePlusProche(new Vector2(0, 0));
         if (tourEnnemiePlusProche)
             unite.SetDestination(tourEnnemiePlusProche.transform.position);
 
@@ -183,7 +188,7 @@ public class BariStar : MonoBehaviour
                 
                 unite.SetDestination(position);
                 
-                unite.Attaquer(nemesis.transform.position);
+                unite.Attaquer(nemesis.transform.position + unite.agent.velocity);
                 
             }
             else // Tenter de l'attaquer si fantassin
@@ -333,7 +338,7 @@ public class BariStar : MonoBehaviour
         return tours;
     }
 
-    TourRavitaillement RecupererTourEnnemiePlusProche()
+    TourRavitaillement RecupererTourEnnemiePlusProche(Vector2 position)
     {
         TourRavitaillement[] toursEnnemies = RecupererToursEnnemies();
         TourRavitaillement closestTower = null;
@@ -343,8 +348,8 @@ public class BariStar : MonoBehaviour
             if (closestTower)
             {
                 // Si la difference entre la distance entre notre unite et la previously closest unite est grande que celle avec la nouvelle unite
-                if (Vector3.Distance(unite.transform.position, tour.transform.position) <
-                    Vector3.Distance(unite.transform.position, closestTower.transform.position))
+                if (Vector3.Distance(position, tour.transform.position) <
+                    Vector3.Distance(position, closestTower.transform.position))
                 {
                     closestTower = tour;
                 }

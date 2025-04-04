@@ -11,13 +11,13 @@ public class Sapeur : Unite
     
     protected override void AssignerAttributs()
     {
-        pointsVieMax = 60f;
+        pointsVieMax = 50f;
         pointsVie = pointsVieMax;
         vitesseDeplacement = 2f;
-        delaiAttaque = 5f;
-        distanceAttaque = 10f;
-        force = new Vector2(15f, 20f);
-        rayonAttaque = 3f;
+        delaiAttaque = 3f;
+        distanceAttaque = 7.5f;
+        force = new Vector2(20f, 30f);
+        rayonAttaque = 2f;
     }
     
     protected override void InfligerDegats(Vector2 position, float degats)
