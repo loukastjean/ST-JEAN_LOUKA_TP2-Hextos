@@ -1,42 +1,42 @@
 using UnityEngine;
 
-public class JoueurDeMusique : MonoBehaviour
+public class LecteurDeMusique : MonoBehaviour
 {
-    private AudioClip audioClipActuel;
+    private AudioClip musiqueActuelle;
 
-    private AudioClip[] audioClips;
+    private AudioClip[] musiques;
 
     private AudioSource audioSource;
 
-    // Start is called before the first frame update
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
 
-        audioClips = Resources.LoadAll<AudioClip>("Musics");
+        musiques = Resources.LoadAll<AudioClip>("Musics");
     }
 
-    // Update is called once per frame
     private void Update()
     {
-        Update_AudioClip();
+        MettreAJourMusique();
     }
 
-    private void Update_AudioClip()
+    private void MettreAJourMusique()
     {
         if (!audioSource.isPlaying)
         {
-            audioClipActuel = AudioClipAleatoire();
-            audioSource.PlayOneShot(audioClipActuel);
+            musiqueActuelle = SelectionnerMusiqueAleatoire();
+            audioSource.PlayOneShot(musiqueActuelle);
         }
     }
 
-    private AudioClip AudioClipAleatoire()
+    private AudioClip SelectionnerMusiqueAleatoire()
     {
-        var chosenClip = audioClips[Random.Range(0, audioClips.Length)];
+        var musiqueChoisie = musiques[Random.Range(0, musiques.Length)];
 
-        while (chosenClip == audioClipActuel) chosenClip = audioClips[Random.Range(0, audioClips.Length)];
+        // S'assurer que la musique choisie est différente de la musique actuelle
+        while (musiqueChoisie == musiqueActuelle) 
+            musiqueChoisie = musiques[Random.Range(0, musiques.Length)];
 
-        return chosenClip;
+        return musiqueChoisie;
     }
 }

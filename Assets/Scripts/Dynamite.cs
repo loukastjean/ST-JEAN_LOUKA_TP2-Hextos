@@ -2,107 +2,90 @@ using UnityEngine;
 
 public class Dynamite : MonoBehaviour
 {
-    public float degats;
-    public Vector2 destination;
-    public float rayonAttaque;
-    public AudioClip clipExplosion;
+    public float degats; // Les dégâts infligés par la dynamite
+    public Vector2 destination; // Destination de la dynamite
+    public float rayonAttaque; // Rayon d'attaque de la dynamite
+    public AudioClip clipExplosion; // Clip audio pour l'explosion
 
-    private Animator animator;
-
-    private AudioSource audioSource;
-    private double creationTs;
-
-    private Vector2 deplacementUnitaire;
-
-    private bool exploded;
-    private readonly double gravite = -4f;
-
-    // La variable qui permet de donner un aspect 3d a la dynamite
-    private readonly double k = 3f;
-
-    // Valeurs qu'on donne a la dynamite apres avoir instancie
-    private Vector2 positionDepart;
-
-    private readonly float vitesseDeplacement = 5f;
-    public double tempsFinal { get; private set; }
+    private Animator animator; // Animator pour contrôler les animations
+    private AudioSource audioSource; // Source audio pour jouer les effets sonores
+    private double tempsCreation; // Timestamp de la création de la dynamite
+    private Vector2 directionDeplacement; // Direction du mouvement de la dynamite
+    private bool aExplose; // Booléen pour vérifier si la dynamite a explosé
+    private readonly double gravite = -4f; // Gravité appliquée à la dynamite
+    private readonly double facteur3D = 3f; // Facteur pour ajouter un effet 3D à la dynamite
+    private Vector2 positionInitiale; // Position de départ de la dynamite
+    private readonly float vitesseDeplacement = 5f; // Vitesse de déplacement de la dynamite
+    public double tempsFinal { get; private set; } // Temps final avant l'explosion
 
 
     // Start is called before the first frame update
     private void Start()
     {
-        exploded = false;
-
+        aExplose = false;
         audioSource = GetComponent<AudioSource>();
-
-        positionDepart = transform.position;
-
-        var longeurDeplacement = Vector2.Distance(transform.position, destination);
-
-        creationTs = Time.time;
-
-        tempsFinal = longeurDeplacement / vitesseDeplacement;
-
-        deplacementUnitaire = (destination - positionDepart).normalized;
-
         animator = GetComponent<Animator>();
+        positionInitiale = transform.position; // Sauvegarde la position initiale
+        var longeurDeplacement = Vector2.Distance(transform.position, destination); // Calcule la distance à parcourir
+        tempsCreation = Time.time; // Sauvegarde le temps de création
+        tempsFinal = longeurDeplacement / vitesseDeplacement; // Calcule le temps nécessaire pour atteindre la destination
+        directionDeplacement = (destination - positionInitiale).normalized; // Calcule la direction de déplacement
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if (Vector2.Distance(transform.position, destination) <= 0.5f && !exploded)
+        if (Vector2.Distance(transform.position, destination) <= 0.5f && !aExplose) // Si la dynamite atteint la destination
         {
             Explosion();
-            exploded = true;
+            aExplose = true;
         }
-        else if (exploded)
+        else if (!aExplose) // Si la dynamite n'a pas explosé
         {
-        }
-        else
-        {
-            CalculerEquationMouvement();
-            // Rotationne
+            CalculerMouvement(); // Calcul du mouvement de la dynamite
+            // Rotation de la dynamite pour un effet visuel
             transform.Rotate(new Vector3(0, 0, 180) * Time.deltaTime);
         }
     }
 
     // On calcule ici l'equation pour le mouvement de la dynamite avec les maths
-    private void CalculerEquationMouvement()
+    private void CalculerMouvement()
     {
-        var tempsDepuisCreation = (float)(Time.time - creationTs);
+        var tempsDepuisCreation = (float)(Time.time - tempsCreation); // Temps écoulé depuis la création
 
+        // Calcul de la hauteur de la trajectoire parabolique
         var hauteur = gravite / 2 * Mathf.Pow(tempsDepuisCreation, 2) - gravite / 2 * tempsFinal * tempsDepuisCreation;
 
-        var positionHorizontale = positionDepart + vitesseDeplacement * tempsDepuisCreation * deplacementUnitaire;
+        // Calcul de la position horizontale de la dynamite
+        var positionHorizontale = positionInitiale + vitesseDeplacement * tempsDepuisCreation * directionDeplacement;
 
-        var positionSurParabole = new Vector2(positionHorizontale.x, (float)(positionHorizontale.y + k * hauteur));
+        // Position de la dynamite sur la parabole
+        var positionSurParabole = new Vector2(positionHorizontale.x, (float)(positionHorizontale.y + facteur3D * hauteur));
 
-        transform.position = positionSurParabole;
+        transform.position = positionSurParabole; // Mise à jour de la position de la dynamite
     }
 
+    // Inflige des dégâts aux unités dans le rayon d'attaque
     private void InfligerDegats()
     {
-        // Récupérer les colliders à proximité de position
+        // Récupère les colliders dans le rayon d'attaque
         var colliders = Physics2D.OverlapCircleAll(destination, rayonAttaque);
 
-        // Vérifier chaque collider un par un
+        // Vérifie chaque collider pour savoir s'il s'agit d'une unité
         foreach (var collider in colliders)
-            // Vérifier s'il s'agit d'une unité
             if (collider.TryGetComponent(out Unite unite))
-                // Infliger des degats
+                // Infliger des dégâts à l'unité
                 unite.SubirDegats(degats);
     }
 
-
+    // Déclenche l'explosion de la dynamite
     private void Explosion()
     {
-        animator.SetTrigger("explode");
+        animator.SetTrigger("explose"); // Déclenche l'animation d'explosion
+        audioSource.PlayOneShot(clipExplosion); // Joue le son de l'explosion
+        InfligerDegats(); // Inflige les dégâts aux unités
 
-        audioSource.PlayOneShot(clipExplosion);
-
-        InfligerDegats();
-
-        // Disparition
+        // Détruit la dynamite après 0.5 secondes
         Destroy(gameObject, 0.5f);
     }
 }

@@ -49,25 +49,21 @@ public class Unite : MonoBehaviour
     {
         AssignerAttributs();
         agent = GetComponent<NavMeshAgent>();
-
         spriteRenderer = GetComponent<SpriteRenderer>();
-
         animator = GetComponent<Animator>();
-
-        tsCreation = Time.time;
-
+        tsCreation = Time.time; // Temps de creation
         audioSource = GetComponent<AudioSource>();
-
-        agent.speed = vitesseDeplacement;
+        agent.speed = vitesseDeplacement; // Vitesse du navmeshagent
     }
 
     private void Update()
     {
         if (pointsVie <= 0.1f) return;
 
+        // Flip l'image en fonction de quel bord l'unite va
         if (agent.velocity.x < 0.1f)
             spriteRenderer.flipX = true;
-        else
+        else if (agent.velocity.x > 0.1f)
             spriteRenderer.flipX = false;
     }
 
@@ -94,7 +90,7 @@ public class Unite : MonoBehaviour
         if (agent)
         {
             agent.SetDestination(destination);
-            animator.SetBool("isWalking", true);
+            animator.SetBool("enMarche", true);
         }
     }
 
@@ -112,7 +108,7 @@ public class Unite : MonoBehaviour
         // Vérifier si la distanceAttaque le permet
         if (Vector2.Distance(transform.position, position) > distanceAttaque) return;
 
-        animator.SetTrigger("attack");
+        animator.SetTrigger("attaque");
         audioSource.PlayOneShot(audioClipAttaque);
 
         // Effectuer l'attaque (avec des dégats aléatoires)
@@ -152,10 +148,12 @@ public class Unite : MonoBehaviour
             // Aviser l'équipe
             equipe.UniteMorte(this);
 
-            animator.SetTrigger("die");
+            // Jouer l'animation de mort
+            animator.SetTrigger("mort");
 
             audioSource.PlayOneShot(audioClipMort);
-
+            
+            // Empeche le crane de bouger
             Destroy(agent);
 
             // Disparition
@@ -174,7 +172,8 @@ public class Unite : MonoBehaviour
         if (!agent.pathPending)
             if (agent.remainingDistance <= agent.stoppingDistance)
             {
-                animator.SetBool("isWalking", false);
+                // Arreter l'animation de marche
+                animator.SetBool("enMarche", false);
                 return true;
             }
 

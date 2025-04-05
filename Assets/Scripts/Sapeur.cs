@@ -9,6 +9,7 @@ public class Sapeur : Unite
     
     public GameObject prefabDynamite;
     
+    // Assigner les attributs de l'unité
     protected override void AssignerAttributs()
     {
         pointsVieMax = 50f;
@@ -20,6 +21,7 @@ public class Sapeur : Unite
         rayonAttaque = 2f;
     }
     
+    // Infliger des dégâts à une position donnée (avec la dynamite)
     protected override void InfligerDegats(Vector2 position, float degats)
     {
         Dynamite dynamite = Instantiate(
