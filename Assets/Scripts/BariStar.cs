@@ -296,14 +296,14 @@ public class BariStar : MonoBehaviour
         return ennemis.ToArray();
     }
 
-    TourRavitaillement[] RecupererToursEnnemies()
+    private TourRavitaillement[] RecupererToursEnnemies()
     {
         TourRavitaillement[] tours = FindObjectsOfType<TourRavitaillement>();
 
         foreach (var tour in unite.equipe.tours)
         {
             // Si c'est pas un allié
-            if (tour.proprietaire == unite.equipe)
+            if (tour.proprietaire != unite.equipe)
             {
                 tours[tours.Length - 1] = tour;
             }

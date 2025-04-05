@@ -17,10 +17,10 @@ public class LecteurDeMusique : MonoBehaviour
 
     private void Update()
     {
-        MettreAJourMusique();
+        Update_Musique();
     }
 
-    private void MettreAJourMusique()
+    private void Update_Musique()
     {
         if (!audioSource.isPlaying)
         {

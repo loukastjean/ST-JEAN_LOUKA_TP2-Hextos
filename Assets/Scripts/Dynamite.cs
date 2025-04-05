@@ -12,10 +12,10 @@ public class Dynamite : MonoBehaviour
     private double tempsCreation; // Timestamp de la création de la dynamite
     private Vector2 directionDeplacement; // Direction du mouvement de la dynamite
     private bool aExplose; // Booléen pour vérifier si la dynamite a explosé
-    private readonly double gravite = -4f; // Gravité appliquée à la dynamite
-    private readonly double facteur3D = 3f; // Facteur pour ajouter un effet 3D à la dynamite
+    private double gravite; // Gravité appliquée à la dynamite
+    private double facteur3D; // Facteur pour ajouter un effet 3D à la dynamite
     private Vector2 positionInitiale; // Position de départ de la dynamite
-    private readonly float vitesseDeplacement = 5f; // Vitesse de déplacement de la dynamite
+    private float vitesseDeplacement; // Vitesse de déplacement de la dynamite
     public double tempsFinal { get; private set; } // Temps final avant l'explosion
 
 
@@ -23,8 +23,13 @@ public class Dynamite : MonoBehaviour
     private void Start()
     {
         aExplose = false;
+        gravite = -4f;
+        facteur3D = 3f;
+        vitesseDeplacement = 5f;
+        
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
+        
         positionInitiale = transform.position; // Sauvegarde la position initiale
         var longeurDeplacement = Vector2.Distance(transform.position, destination); // Calcule la distance à parcourir
         tempsCreation = Time.time; // Sauvegarde le temps de création
