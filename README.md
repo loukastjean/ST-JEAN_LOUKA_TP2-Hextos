@@ -1,2 +1,2 @@
 # ST-JEAN_LOUKA_Hextos
-Marc-Andre Seguin
+Voici mon projet Hextos, fait avec Unity dans le cadre de mon cours de Développement de jeux vidéo
